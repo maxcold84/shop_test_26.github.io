@@ -1,0 +1,89 @@
+<!doctype html><html lang=ko><head><meta charset=utf-8><title>연락처</title><meta http-equiv=Content-Security-Policy content="default-src 'self' * 'unsafe-inline' 'unsafe-eval' data: blob:;"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><meta name=description content="스토어 문의 페이지"><meta name=author content="Codex Boilerplate"><meta name=generator content="Hugo 0.152.2"><meta name=theme-name content="vex-hugo"><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Droid+Serif:400%7cJosefin+Sans:300,400,600,700"><link rel=stylesheet href=http://localhost:1313/plugins/bootstrap/bootstrap.min.css><link rel=stylesheet href=http://localhost:1313/plugins/themefisher-font/themefisher-font.min.css><link rel=stylesheet href=http://localhost:1313/plugins/slick/slick.min.css><link rel=stylesheet href=http://localhost:1313/scss/style.min.css media=screen><link rel=stylesheet href=http://localhost:1313/scss/cart-styles.min.css media=screen><link rel="shortcut icon" href=http://localhost:1313/images/favicon.png type=image/x-icon><link rel=icon href=http://localhost:1313/images/favicon.png type=image/x-icon><meta property="og:url" content="http://localhost:1313/ko/contact/"><meta property="og:site_name" content="휴고 커머스 보일러플레이트"><meta property="og:title" content="연락처"><meta property="og:description" content="스토어 문의 페이지"><meta property="og:locale" content="ko"><meta property="og:type" content="website"><script>window.SiteConfig={pocketbaseUrl:"http://127.0.0.1:8090"}</script><script>window.ShopConfig={paymentsEnabled:!1,storeId:"",currentLanguage:"ko",currencyCode:"KRW",currencySymbol:"₩",channels:{inicis:"",kakaopay:"",korean_payment:""},koreanPaymentPassKey:""}</script><script src=http://localhost:1313/js/pocketbase.umd.js></script><script src=http://localhost:1313/js/mustache.min.js></script></head><body id=body><header class="sticky-top bg-white"><div class=container><nav class="navbar navbar-expand-lg navbar-light"><a class=navbar-brand href=/ko style=width:100px><div class=img-fluid><img src=/images/logo.png alt="휴고 커머스 보일러플레이트" class=img-fluid></div></a><button class=cart id=cart-trigger onclick=Cart.toggleDrawer()>
+<i class=tf-ion-android-cart></i>
+</button>
+<button class="navbar-toggler border-0" type=button data-toggle=collapse data-target=#navigation aria-controls=navigation aria-expanded=false aria-label="Toggle navigation">
+<span class=navbar-toggler-icon></span></button><div class="collapse navbar-collapse text-center" id=navigation><ul class="navbar-nav ml-auto"><li class=nav-item><a class=nav-link href=/ko/>홈</a></li><li class=nav-item><a class=nav-link href=/ko/products>제품</a></li><li class=nav-item><a class=nav-link href=/ko/blog>블로그</a></li><li class=nav-item><a class=nav-link href=/ko/#testimonial>리뷰</a></li><li class=nav-item><a class=nav-link href=/ko/contact>연락처</a></li><li class=nav-item id=auth-login-link><a class=nav-link href=/ko/login>로그인</a></li><li class=nav-item id=auth-signup-link><a class=nav-link href=/ko/login#signup>회원가입</a></li><li class=nav-item id=auth-logout-link style=display:none><a class=nav-link href=# onclick="return Auth.logout(),!1">로그아웃</a></li><li class=nav-item id=auth-profile-link style=display:none><a class=nav-link href=/ko/profile style=padding-top:0;padding-bottom:0><div class="d-flex align-items-center"><img id=nav-avatar-img src alt=Avatar class="rounded-circle mr-2" style=width:30px;height:30px;object-fit:cover;display:none>
+<i id=nav-avatar-icon class=tf-ion-android-person style=font-size:24px;display:none></i></div></a></li></ul><select class=lang-list id=select-language onchange="location=this.value"><option id=en value=http://localhost:1313/en/contact/>English</option><option id=ko value=http://localhost:1313/ko/contact/ selected>한국어</option></select></div></nav></div></header><section class=section><div class=container><div class="row justify-content-center"><div class="col-lg-5 col-sm-6 mb-5"><h2 class="font-weight-bold mb-4">메인 오피스</h2><p>이 영역에는 고객센터 안내, 쇼룸 주소, 상담 운영 정책 등 실제 운영 정보를 입력하세요.</p><ul class="list-unstyled contact-list"><li class=mb-3><a href=tel:02-555-1234><i class="tf-ion-ios-telephone mr-2"></i>
+02-555-1234</a></li><li class=mb-3><a href=mailto:hello@example-store.com><i class="tf-ion-email mr-2"></i>hello@example-store.com</a></li><li class=mb-3><i class="tf-ion-ios-location mr-2"></i>서울시 예시구 샘플로 123</li></ul></div><div class="col-lg-3 col-sm-6 mb-5"><h2 class="font-weight-bold mb-4">운영 시간</h2><ul class=list-unstyled><li class=mb-2>월요일: 9:00 - 18:00</li><li class=mb-2>화요일: 9:00 - 18:00</li><li class=mb-2>수요일: 9:00 - 18:00</li><li class=mb-2>목요일: 9:00 - 18:00</li><li class=mb-2>금요일: 9:00 - 18:00</li><li class=mb-2>토요일: 10:00 - 16:00</li><li class=mb-2>일요일: 휴무</li></ul></div></div><div class="row justify-content-center"><div class=col-lg-8><h2 class="font-weight-bold mb-4">연락처</h2><form action=# method=POST class=row><div class="col-lg-6 mb-3"><input type=text class="form-control mb-2" id=name name=name placeholder="Your Name"></div><div class="col-lg-6 mb-3"><input type=email class="form-control mb-2" id=email name=email placeholder="Your Email"></div><div class="col-12 mb-3"><textarea name=message id=message class="form-control mb-2" placeholder="Your Message"></textarea></div><div class="col-12 text-right"><button type=submit value=send class="btn btn-main btn-main-sm">보내기</button></div></form></div></div></div></section><footer><div class="container text-center"><div class=row><div class=col-md-12><div class=block><a href=/ko class="mb-4 d-inline-block" style=width:100px><div class=img-fluid><img src=/images/logo.png alt="휴고 커머스 보일러플레이트" class=img-fluid></div></a><ul class="list-inline footer-menu"><li class=list-inline-item><a href=/ko/blog>블로그</a></li><li class=list-inline-item><a href=/ko/contact>연락처</a></li><li class=list-inline-item><a href=/ko/terms-conditions>이용 약관</a></li><li class=list-inline-item><a href=/ko/privacy-policy>개인정보 처리방침</a></li></ul><p class=copyright-text>Copyright © 2026 Your Store. Built with Hugo Commerce Boilerplate.</p></div></div></div></div></footer><script src=http://localhost:1313/plugins/jquery/jquery.js></script><script src=http://localhost:1313/plugins/bootstrap/bootstrap.min.js></script><script src=http://localhost:1313/plugins/slick/slick.min.js></script><script src=http://localhost:1313/js/script.js></script><script src="/js/bundle.fc3bd1d6cc6140fd558c9ac8782af66acc24920a9d7b864879dacdbc76192ac5.js?v=1773731171"></script><script>const loginUrl="/ko/login"</script><div id=cart-overlay onclick=Cart.toggleDrawer()></div><div id=cart-drawer><div class=cart-header><div class="d-flex align-items-center"><h3>🛒 장바구니</h3><span class=cart-count id=cart-item-count>0</span></div><button onclick=Cart.toggleDrawer() class=close-btn aria-label="Close cart">
+×</button></div><div id=cart-items-container><div class=cart-loading><div class=spinner></div></div></div><script id=cart-template type=x-tmpl-mustache>
+    [[^items]]
+    <div class="empty-cart">
+      <div class="empty-icon">🛍️</div>
+      <h4>장바구니가 비어있습니다</h4>
+      <p>쇼핑을 시작해보세요!</p>
+    </div>
+    [[/items]]
+
+    [[#items]]
+    <div class="cart-item" data-item-id="[[id]]">
+      <div class="item-content">
+        [[#productLink]]
+        [[#image]]
+        <a href="[[productLink]]" class="item-image-link">
+          <img src="[[image]]" alt="[[name]]" class="item-image item-image-clickable" loading="lazy">
+        </a>
+        [[/image]]
+        [[^image]]
+        <a href="[[productLink]]" class="item-image-link">
+          <div class="item-image item-image-clickable" style="display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; font-size: 24px;">
+            🛍️
+          </div>
+        </a>
+        [[/image]]
+        [[/productLink]]
+        [[^productLink]]
+        [[#image]]
+        <img src="[[image]]" alt="[[name]]" class="item-image" loading="lazy">
+        [[/image]]
+        [[^image]]
+        <div class="item-image" style="display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; font-size: 24px;">
+          🛍️
+        </div>
+        [[/image]]
+        [[/productLink]]
+        
+        <div class="item-details">
+          [[#productLink]]
+          <h4 class="item-name"><a href="[[productLink]]" class="item-name-link">[[name]]</a></h4>
+          [[/productLink]]
+          [[^productLink]]
+          <h4 class="item-name">[[name]]</h4>
+          [[/productLink]]
+          <div class="item-price">[[formattedPrice]]</div>
+        </div>
+      </div>
+      
+      <div class="item-actions">
+        <div class="quantity-controls">
+          <button onclick="Cart.changeQuantity('[[id]]', -1)" 
+                  [[#isMinQuantity]]disabled[[/isMinQuantity]]
+                  aria-label="Decrease quantity">
+            -
+          </button>
+          <span class="quantity-value">[[quantity]]</span>
+          <button onclick="Cart.changeQuantity('[[id]]', 1)" 
+                  aria-label="Increase quantity">
+            +
+          </button>
+        </div>
+        
+        <button onclick="Cart.removeItem('[[id]]')" 
+                class="remove-btn" 
+                aria-label="Remove item">
+          🗑️
+        </button>
+      </div>
+    </div>
+    [[/items]]
+
+    [[#hasItems]]
+    <div class="cart-extras" style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #eee;">
+        <p style="text-align: center; color: #666; font-size: 0.9em; margin-bottom: 15px;">
+            주문하기 버튼을 누르면 주문/결제 페이지로 이동합니다.
+        </p>
+    </div>
+    [[/hasItems]]
+</script><div class=cart-footer style=display:none id=cart-footer><div class=cart-summary><div class=summary-row><span>소계</span>
+<span class=amount id=cart-subtotal>₩0</span></div><div class="summary-row total"><span>총액</span>
+<span class=amount id=cart-total>₩0</span></div></div><button onclick=Cart.checkout() class=checkout-btn id=checkout-btn>
+💳 주문하기</button></div></div><script>document.addEventListener("DOMContentLoaded",function(){window.ShopConfig&&window.Cart&&Cart.init(window.ShopConfig)})</script></body></html>
