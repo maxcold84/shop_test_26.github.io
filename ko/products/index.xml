@@ -1,1 +1,19 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>최신 컬렉션 상품 on 휴고 커머스 보일러플레이트</title><link>/ko/products/</link><description>Recent content in 최신 컬렉션 상품 on 휴고 커머스 보일러플레이트</description><generator>Hugo</generator><language>ko</language><lastBuildDate>Tue, 17 Mar 2026 04:44:23 +0000</lastBuildDate><atom:link href="/ko/products/index.xml" rel="self" type="application/rss+xml"/><item><title>신발</title><link>/ko/products/product-1773722629493/</link><pubDate>Tue, 17 Mar 2026 04:44:23 +0000</pubDate><guid>/ko/products/product-1773722629493/</guid><description>&lt;p&gt;ㅇㅇ&lt;/p&gt;</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>최신 컬렉션 상품 on 휴고 커머스 보일러플레이트</title>
+    <link>/ko/products/</link>
+    <description>Recent content in 최신 컬렉션 상품 on 휴고 커머스 보일러플레이트</description>
+    <generator>Hugo</generator>
+    <language>ko</language>
+    <lastBuildDate>Tue, 17 Mar 2026 04:44:23 +0000</lastBuildDate>
+    <atom:link href="/ko/products/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>신발</title>
+      <link>/ko/products/product-1773722629493/</link>
+      <pubDate>Tue, 17 Mar 2026 04:44:23 +0000</pubDate>
+      <guid>/ko/products/product-1773722629493/</guid>
+      <description>&lt;p&gt;ㅇㅇ&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

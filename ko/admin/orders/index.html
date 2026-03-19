@@ -1,35 +1,607 @@
-<!doctype html><html lang=ko><head><meta charset=utf-8><title>주문 관리</title><meta http-equiv=Content-Security-Policy content="default-src 'self' * 'unsafe-inline' 'unsafe-eval' data: blob:;"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><meta name=description content="스토어 주문 상태와 배송 정보를 관리합니다"><meta name=author content="Codex Boilerplate"><meta name=generator content="Hugo 0.152.2"><meta name=theme-name content="vex-hugo"><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Droid+Serif:400%7cJosefin+Sans:300,400,600,700"><link rel=stylesheet href=/plugins/bootstrap/bootstrap.min.css><link rel=stylesheet href=/plugins/themefisher-font/themefisher-font.min.css><link rel=stylesheet href=/plugins/slick/slick.min.css><link rel=stylesheet href=/scss/style.min.css media=screen><link rel=stylesheet href=/scss/cart-styles.min.css media=screen><link rel="shortcut icon" href=/images/favicon.png type=image/x-icon><link rel=icon href=/images/favicon.png type=image/x-icon><meta property="og:url" content="/ko/admin/orders/"><meta property="og:site_name" content="휴고 커머스 보일러플레이트"><meta property="og:title" content="주문 관리"><meta property="og:description" content="스토어 주문 상태와 배송 정보를 관리합니다"><meta property="og:locale" content="ko"><meta property="og:type" content="article"><meta property="article:section" content="admin"><script>window.SiteConfig={pocketbaseUrl:"http://127.0.0.1:8090"}</script><script>window.ShopConfig={paymentsEnabled:!1,storeId:"",currentLanguage:"ko",currencyCode:"KRW",currencySymbol:"₩",channels:{inicis:"",kakaopay:"",korean_payment:""},koreanPaymentPassKey:""}</script><script src=/js/pocketbase.umd.js></script><script src=/js/mustache.min.js></script></head><body id=body><header class="sticky-top bg-white"><div class=container><nav class="navbar navbar-expand-lg navbar-light"><a class=navbar-brand href=/ko/ style=width:100px><div class=img-fluid><img src=/images/logo.png alt="휴고 커머스 보일러플레이트" class=img-fluid></div></a><button class=cart id=cart-trigger onclick=Cart.toggleDrawer()>
-<i class=tf-ion-android-cart></i>
-</button>
-<button class="navbar-toggler border-0" type=button data-toggle=collapse data-target=#navigation aria-controls=navigation aria-expanded=false aria-label="Toggle navigation">
-<span class=navbar-toggler-icon></span></button><div class="collapse navbar-collapse text-center" id=navigation><ul class="navbar-nav ml-auto"><li class=nav-item><a class=nav-link href=/ko/>홈</a></li><li class=nav-item><a class=nav-link href=/ko/products>제품</a></li><li class=nav-item><a class=nav-link href=/ko/blog>블로그</a></li><li class=nav-item><a class=nav-link href=/ko/#testimonial>리뷰</a></li><li class=nav-item><a class=nav-link href=/ko/contact>연락처</a></li><li class=nav-item id=auth-login-link><a class=nav-link href=/ko/login>로그인</a></li><li class=nav-item id=auth-signup-link><a class=nav-link href=/ko/login#signup>회원가입</a></li><li class=nav-item id=auth-logout-link style=display:none><a class=nav-link href=# onclick="return Auth.logout(),!1">로그아웃</a></li><li class=nav-item id=auth-profile-link style=display:none><a class=nav-link href=/ko/profile style=padding-top:0;padding-bottom:0><div class="d-flex align-items-center"><img id=nav-avatar-img src alt=Avatar class="rounded-circle mr-2" style=width:30px;height:30px;object-fit:cover;display:none>
-<i id=nav-avatar-icon class=tf-ion-android-person style=font-size:24px;display:none></i></div></a></li></ul></div></nav></div></header><section class=section><div class=container><div class=row><div class=col-12><div class=admin-nav-container><div class=admin-nav-inner><div class=admin-nav-left><span class=admin-nav-brand>STORE ADMIN</span></div><div class=admin-nav-center><a href=/ko/admin/products class=admin-nav-link>상품 관리</a>
-<a href=/ko/admin/orders class="admin-nav-link active">주문 관리</a>
-<a href=/ko/admin/posts class=admin-nav-link>콘텐츠 관리</a></div><div class=admin-nav-right><button id=admin-logout-btn class=admin-nav-logout>로그아웃</button></div></div></div><style>.admin-nav-container{border-bottom:1px solid #eee;background:#fff;margin-bottom:2rem;padding:.75rem 0}.admin-nav-inner{max-width:1140px;margin:0 auto;padding:0 15px;display:flex;align-items:center;justify-content:space-between}.admin-nav-brand{font-weight:700;font-size:.9rem;letter-spacing:.1em;color:#111}.admin-nav-center{display:flex;gap:2rem}.admin-nav-link{color:#666;font-size:.875rem;font-weight:500;text-decoration:none;padding-bottom:4px;border-bottom:2px solid transparent;transition:all .2s ease}.admin-nav-link:hover{color:#111;text-decoration:none}.admin-nav-link.active{color:#111;border-bottom-color:#111}.admin-nav-logout{background:0 0;border:none;color:#999;font-size:.875rem;font-weight:500;cursor:pointer;padding:0;transition:color .2s}.admin-nav-logout:hover{color:#ff4757}@media(max-width:576px){.admin-nav-inner{flex-direction:column;gap:1rem;text-align:center}.admin-nav-center{gap:1rem;flex-wrap:wrap;justify-content:center}}</style><div class="d-flex justify-content-between align-items-center mb-3"><h2>주문 관리</h2><div></div></div><div class="alert alert-light border mb-4"><div class="d-flex justify-content-between align-items-center"><div class=form-inline><label for=status-filter class="mr-2 font-weight-bold">상태 필터:</label>
-<select id=status-filter class="form-control form-control-sm"><option value>전체 (All)</option><option value=paid>결제완료 (Paid)</option><option value=shipping>배송중 (Shipping)</option><option value=pending>결제대기 (Pending)</option><option value=cancelled>취소됨 (Cancelled)</option><option value=archived>보관됨 (Archived)</option></select></div><button type=button id=refresh-btn class="btn btn-outline-secondary btn-sm" title=새로고침>
-<i class=tf-ion-refresh></i> 새로고침</button></div></div><div id=bulk-actions class="mb-3 d-none"><div class="alert alert-info py-2 d-flex justify-content-between align-items-center"><span><strong id=selected-count>0</strong>개 주문 선택됨</span><div><button type=button class="btn btn-sm btn-warning mr-2" onclick=AdminOrders.bulkArchive()>
-<i class=tf-ion-archive></i> 일괄 보관
-</button>
-<button type=button class="btn btn-sm btn-danger" onclick=AdminOrders.bulkDelete()>
-<i class=tf-ion-trash-a></i> 일괄 삭제</button></div></div></div><div class=table-responsive><table class="table table-hover"><thead><tr><th style=width:40px><input type=checkbox id=select-all-orders onclick=AdminOrders.toggleSelectAll() title="전체 선택"></th><th>주문번호 / 날짜</th><th>주문자 정보</th><th>상품</th><th>총 결제금액</th><th>운송장</th><th class=text-center>상태</th><th class=text-center>관리</th></tr></thead><tbody id=orders-table-body><tr><td colspan=8 class="text-center py-5"><div class="spinner-border text-primary" role=status><span class=sr-only>Loading...</span></div><span class=ml-2>주문 목록을 불러오는 중...</span></td></tr></tbody></table></div><div class="d-flex justify-content-between align-items-center mt-4"><div><span class=text-muted>총 <strong id=total-orders-count>0</strong>건의 주문</span></div><nav aria-label="Page navigation"><ul id=pagination-controls class="pagination mb-0"></ul></nav></div></div></div></div></section><div class="modal fade" id=order-detail-modal tabindex=-1 role=dialog aria-hidden=true><div class="modal-dialog modal-lg" role=document><div class=modal-content><div class=modal-header><h5 class=modal-title>주문 상세 정보
-<span id=modal-order-status class="badge badge-success ml-2">Paid</span></h5><button type=button class=close data-dismiss=modal aria-label=닫기>
-<span aria-hidden=true>&#215;</span></button></div><div class=modal-body><div class=row><div class="col-12 mb-4"><h6 class="font-weight-bold mb-3 border-bottom pb-2">주문자 / 배송 정보</h6><div class="bg-light p-3 rounded"><div class=row><div class="col-md-6 mb-2"><span class=font-weight-bold>이름:</span> <span id=modal-buyer-name>-</span></div><div class="col-md-6 mb-2"><span class=font-weight-bold>전화번호:</span> <span id=modal-buyer-phone>-</span></div><div class="col-md-6 mb-2"><span class=font-weight-bold>이메일:</span> <span id=modal-buyer-email>-</span></div><div class="col-12 mb-2"><span class=font-weight-bold>주소:</span> <span id=modal-buyer-address>-</span></div><div class="col-12 mb-2"><span class=font-weight-bold>배송 메모:</span> <span id=modal-buyer-delivery-note>-</span></div><div class="col-12 text-muted small">결제 ID: <span id=modal-payment-id>-</span></div><div class="col-md-6 mb-2"><span class=font-weight-bold>주문 일시: <span id=modal-order-date>-</span></div></div></div></div><div class="col-12 mb-4"><h6 class="font-weight-bold mb-3 border-bottom pb-2">주문 상품</h6><div id=modal-order-items class="border rounded" style=max-height:300px;overflow-y:auto></div><div class="text-right mt-3"><span class=h5>총 결제금액: <span class="font-weight-bold text-primary" id=modal-total-amount>0원</span></span></div></div><div class=col-12><h6 class="font-weight-bold mb-3 border-bottom pb-2">운송장 정보</h6><div class="form-row align-items-end"><div class="form-group col-md-4"><label for=tracking-carrier class="small text-muted mb-1">택배사</label>
-<select id=tracking-carrier class="form-control form-control-sm"><option value>선택하세요</option><option value=cj>CJ대한통운</option><option value=hanjin>한진택배</option><option value=lotte>롯데택배</option><option value=logen>로젠택배</option><option value=post>우체국택배</option><option value=epost>우체국EMS</option><option value=kdexp>경동택배</option></select></div><div class="form-group col-md-5"><label for=tracking-number class="small text-muted mb-1">운송장번호</label>
-<input type=text id=tracking-number class="form-control form-control-sm" placeholder="운송장번호 입력"></div><div class="form-group col-md-3"><button type=button id=save-tracking-btn class="btn btn-success btn-sm btn-block" onclick=AdminOrders.saveTrackingInfo()>
-저장</button></div></div><p id=tracking-status-msg class="small mt-1"></p></div></div></div><div class=modal-footer><button type=button id=archive-order-btn class="btn btn-warning" onclick=AdminOrders.archiveOrder()>
-<i class=tf-ion-archive></i> 보관
-</button>
-<button type=button id=delete-order-btn class="btn btn-danger" onclick=AdminOrders.confirmDelete()>
-<i class=tf-ion-trash-a></i> 삭제
-</button>
-<button type=button id=track-delivery-btn class="btn btn-info d-none" onclick=AdminOrders.openTrackingUrl()>
-<i class=tf-ion-ios-location></i> 배송조회
-</button>
-<button type=button class="btn btn-secondary" data-dismiss=modal>닫기</button></div></div></div></div><div class="modal fade" id=delete-confirm-modal tabindex=-1 role=dialog aria-hidden=true><div class="modal-dialog modal-dialog-centered" role=document><div class=modal-content><div class="modal-header bg-danger text-white"><h5 class=modal-title>주문 삭제 확인</h5><button type=button class="close text-white" data-dismiss=modal aria-label=닫기>
-<span aria-hidden=true>&#215;</span></button></div><div class=modal-body><p class=mb-2><strong>정말로 이 주문을 삭제하시겠습니까?</strong></p><p class="text-danger mb-0"><i class=tf-ion-alert-circled></i> 이 작업은 되돌릴 수 없습니다.</p><p id=delete-order-info class="small text-muted mt-2"></p></div><div class=modal-footer><button type=button class="btn btn-secondary" data-dismiss=modal>취소</button>
-<button type=button class="btn btn-danger" id=confirm-delete-btn onclick=AdminOrders.deleteOrder()>
-<i class=tf-ion-trash-a></i> 삭제</button></div></div></div></div><script src=/js/admin-auth.js></script><script src=/js/admin-orders.js></script><footer><div class="container text-center"><div class=row><div class=col-md-12><div class=block><a href=/ko/ class="mb-4 d-inline-block" style=width:100px><div class=img-fluid><img src=/images/logo.png alt="휴고 커머스 보일러플레이트" class=img-fluid></div></a><ul class="list-inline footer-menu"><li class=list-inline-item><a href=/ko/blog>블로그</a></li><li class=list-inline-item><a href=/ko/contact>연락처</a></li><li class=list-inline-item><a href=/ko/terms-conditions>이용 약관</a></li><li class=list-inline-item><a href=/ko/privacy-policy>개인정보 처리방침</a></li></ul><p class=copyright-text>Copyright © 2026 Your Store. Built with Hugo Commerce Boilerplate.</p></div></div></div></div></footer><script src=/plugins/jquery/jquery.js></script><script src=/plugins/bootstrap/bootstrap.min.js></script><script src=/plugins/slick/slick.min.js></script><script src=/js/script.js></script><script src="/js/admin-core.2d5e86d3ab5fae3bd00f4a42e85739cd16be8aab885715a685cb28b8df5e1a4d.js?v=1773733503"></script><div id=cart-overlay onclick=Cart.toggleDrawer()></div><div id=cart-drawer><div class=cart-header><div class="d-flex align-items-center"><h3>🛒 장바구니</h3><span class=cart-count id=cart-item-count>0</span></div><button onclick=Cart.toggleDrawer() class=close-btn aria-label="Close cart">
-×</button></div><div id=cart-items-container><div class=cart-loading><div class=spinner></div></div></div><script id=cart-template type=x-tmpl-mustache>
+<!DOCTYPE html>
+<html lang="ko"><head>
+  <meta charset="utf-8">
+  <title>주문 관리</title>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' * 'unsafe-inline' 'unsafe-eval' data: blob:;">
+
+  <!-- mobile responsive meta -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description"
+    content="스토어 주문 상태와 배송 정보를 관리합니다">
+  
+  <meta name="author" content="Codex Boilerplate">
+  <meta name="generator" content="Hugo 0.152.2">
+
+  <meta name="theme-name" content="vex-hugo" />
+
+  <!-- plugins -->
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid&#43;Serif:400%7cJosefin&#43;Sans:300,400,600,700">
+  
+  <link rel="stylesheet" href="/plugins/bootstrap/bootstrap.min.css">
+  
+  <link rel="stylesheet" href="/plugins/themefisher-font/themefisher-font.min.css">
+  
+  <link rel="stylesheet" href="/plugins/slick/slick.min.css">
+  
+
+  <!-- Main Stylesheet -->
+  
+  <link rel="stylesheet" href="/scss/style.min.css" media="screen">
+
+  <!-- Cart Styles -->
+  
+  <link rel="stylesheet" href="/scss/cart-styles.min.css" media="screen">
+
+  <!--Favicon-->
+  <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon">
+  <link rel="icon" href="/images/favicon.png" type="image/x-icon">
+
+  
+  <meta property="og:url" content="/ko/admin/orders/">
+  <meta property="og:site_name" content="휴고 커머스 보일러플레이트">
+  <meta property="og:title" content="주문 관리">
+  <meta property="og:description" content="스토어 주문 상태와 배송 정보를 관리합니다">
+  <meta property="og:locale" content="ko">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="admin">
+
+  
+
+  
+  
+  
+  
+  
+  
+  
+
+  
+
+  <script>
+    window.SiteConfig = {
+      pocketbaseUrl: "http:\/\/127.0.0.1:8090"
+    };
+  </script>
+
+  <script>
+    window.ShopConfig = {
+      paymentsEnabled: false,
+      storeId: "",
+      currentLanguage: "ko",
+      currencyCode: "KRW",
+      currencySymbol: "₩",
+      channels: {
+        "inicis": "",
+        "kakaopay": "",
+        "korean_payment": ""
+      },
+      koreanPaymentPassKey: ""
+    };
+  </script>
+
+  
+  <script src="/js/pocketbase.umd.js"></script>
+
+  
+  <script src="/js/mustache.min.js"></script>
+
+</head>
+<body id="body">
+<header class="sticky-top bg-white">
+  <div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light">
+      <a class="navbar-brand" href="/ko/" style="width: 100px;">
+        
+        
+<div class="img-fluid">
+    
+    
+        
+        
+        <img src="/images/logo.png" alt="휴고 커머스 보일러플레이트" class="img-fluid">
+        
+    
+</div>
+
+        
+      </a>
+
+      
+      <button class="cart" id="cart-trigger" onclick="Cart.toggleDrawer()">
+        <i class="tf-ion-android-cart"></i>
+      </button>
+
+      <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#navigation"
+        aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse text-center" id="navigation">
+        <ul class="navbar-nav ml-auto">
+          
+          <li class="nav-item">
+            <a class="nav-link"
+              href="/ko/">홈</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="nav-link"
+              href="/ko/products">제품</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="nav-link"
+              href="/ko/blog">블로그</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="nav-link"
+              href="/ko/#testimonial">리뷰</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="nav-link"
+              href="/ko/contact">연락처</a>
+          </li>
+          
+          
+
+
+
+<li class="nav-item" id="auth-login-link">
+    <a class="nav-link" href="/ko/login">로그인</a>
+</li>
+<li class="nav-item" id="auth-signup-link">
+    <a class="nav-link" href="/ko/login#signup">회원가입</a>
+</li>
+<li class="nav-item" id="auth-logout-link" style="display: none;">
+    <a class="nav-link" href="#" onclick="Auth.logout(); return false;">로그아웃</a>
+</li>
+<li class="nav-item" id="auth-profile-link" style="display: none;">
+    <a class="nav-link" href="/ko/profile" style="padding-top: 0; padding-bottom: 0;">
+        <div class="d-flex align-items-center">
+            <img id="nav-avatar-img" src="" alt="Avatar" class="rounded-circle mr-2"
+                style="width: 30px; height: 30px; object-fit: cover; display: none;">
+            <i id="nav-avatar-icon" class="tf-ion-android-person" style="font-size: 24px; display: none;"></i>
+        </div>
+    </a>
+</li>
+        </ul>
+        
+        
+      </div>
+    </nav>
+  </div>
+</header>
+
+<section class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                
+                
+<div class="admin-nav-container">
+    <div class="admin-nav-inner">
+        <div class="admin-nav-left">
+            <span class="admin-nav-brand">STORE ADMIN</span>
+        </div>
+        <div class="admin-nav-center">
+            <a href="/ko/admin/products" class="admin-nav-link ">상품 관리</a>
+            <a href="/ko/admin/orders" class="admin-nav-link active">주문 관리</a>
+            <a href="/ko/admin/posts" class="admin-nav-link ">콘텐츠 관리</a>
+        </div>
+        <div class="admin-nav-right">
+            <button id="admin-logout-btn" class="admin-nav-logout">로그아웃</button>
+        </div>
+    </div>
+</div>
+
+<style>
+    .admin-nav-container {
+        border-bottom: 1px solid #eee;
+        background: #fff;
+        margin-bottom: 2rem;
+        padding: 0.75rem 0;
+    }
+
+    .admin-nav-inner {
+        max-width: 1140px;
+        margin: 0 auto;
+        padding: 0 15px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .admin-nav-brand {
+        font-weight: 700;
+        font-size: 0.9rem;
+        letter-spacing: 0.1em;
+        color: #111;
+    }
+
+    .admin-nav-center {
+        display: flex;
+        gap: 2rem;
+    }
+
+    .admin-nav-link {
+        color: #666;
+        font-size: 0.875rem;
+        font-weight: 500;
+        text-decoration: none;
+        padding-bottom: 4px;
+        border-bottom: 2px solid transparent;
+        transition: all 0.2s ease;
+    }
+
+    .admin-nav-link:hover {
+        color: #111;
+        text-decoration: none;
+    }
+
+    .admin-nav-link.active {
+        color: #111;
+        border-bottom-color: #111;
+    }
+
+    .admin-nav-logout {
+        background: none;
+        border: none;
+        color: #999;
+        font-size: 0.875rem;
+        font-weight: 500;
+        cursor: pointer;
+        padding: 0;
+        transition: color 0.2s;
+    }
+
+    .admin-nav-logout:hover {
+        color: #ff4757;
+    }
+
+    @media (max-width: 576px) {
+        .admin-nav-inner {
+            flex-direction: column;
+            gap: 1rem;
+            text-align: center;
+        }
+
+        .admin-nav-center {
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+    }
+</style>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>주문 관리</h2>
+    <div>
+        
+    </div>
+</div>
+
+                
+                
+<div class="alert alert-light border mb-4">
+    <div class="d-flex justify-content-between align-items-center">
+        <div class="form-inline">
+            <label for="status-filter" class="mr-2 font-weight-bold">상태 필터:</label>
+            <select id="status-filter" class="form-control form-control-sm">
+                <option value="">전체 (All)</option>
+                <option value="paid">결제완료 (Paid)</option>
+                <option value="shipping">배송중 (Shipping)</option>
+                <option value="pending">결제대기 (Pending)</option>
+                <option value="cancelled">취소됨 (Cancelled)</option>
+                <option value="archived">보관됨 (Archived)</option>
+            </select>
+        </div>
+        <button type="button" id="refresh-btn" class="btn btn-outline-secondary btn-sm" title="새로고침">
+            <i class="tf-ion-refresh"></i> 새로고침
+        </button>
+    </div>
+</div>
+
+                
+                
+
+<div id="bulk-actions" class="mb-3 d-none">
+    <div class="alert alert-info py-2 d-flex justify-content-between align-items-center">
+        <span><strong id="selected-count">0</strong>개 주문 선택됨</span>
+        <div>
+            <button type="button" class="btn btn-sm btn-warning mr-2" onclick="AdminOrders.bulkArchive()">
+                <i class="tf-ion-archive"></i> 일괄 보관
+            </button>
+            <button type="button" class="btn btn-sm btn-danger" onclick="AdminOrders.bulkDelete()">
+                <i class="tf-ion-trash-a"></i> 일괄 삭제
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th style="width: 40px;">
+                    <input type="checkbox" id="select-all-orders" onclick="AdminOrders.toggleSelectAll()" title="전체 선택">
+                </th>
+                <th>주문번호 / 날짜</th>
+                <th>주문자 정보</th>
+                <th>상품</th>
+                <th>총 결제금액</th>
+                <th>운송장</th>
+                <th class="text-center">상태</th>
+                <th class="text-center">관리</th>
+            </tr>
+        </thead>
+        <tbody id="orders-table-body">
+            
+            <tr>
+                <td colspan="8" class="text-center py-5">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                    <span class="ml-2">주문 목록을 불러오는 중...</span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<div class="d-flex justify-content-between align-items-center mt-4">
+    <div>
+        <span class="text-muted">총 <strong id="total-orders-count">0</strong>건의 주문</span>
+    </div>
+    <nav aria-label="Page navigation">
+        <ul id="pagination-controls" class="pagination mb-0">
+            
+        </ul>
+    </nav>
+</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<div class="modal fade" id="order-detail-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    주문 상세 정보
+                    <span id="modal-order-status" class="badge badge-success ml-2">Paid</span>
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="닫기">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    
+                    <div class="col-12 mb-4">
+                        <h6 class="font-weight-bold mb-3 border-bottom pb-2">주문자 / 배송 정보</h6>
+                        <div class="bg-light p-3 rounded">
+                            <div class="row">
+                                <div class="col-md-6 mb-2">
+                                    <span class="font-weight-bold">이름:</span> <span id="modal-buyer-name">-</span>
+                                </div>
+                                <div class="col-md-6 mb-2">
+                                    <span class="font-weight-bold">전화번호:</span> <span id="modal-buyer-phone">-</span>
+                                </div>
+                                <div class="col-md-6 mb-2">
+                                    <span class="font-weight-bold">이메일:</span> <span id="modal-buyer-email">-</span>
+                                </div>
+                                <div class="col-12 mb-2">
+                                    <span class="font-weight-bold">주소:</span> <span id="modal-buyer-address">-</span>
+                                </div>
+                                <div class="col-12 mb-2">
+                                    <span class="font-weight-bold">배송 메모:</span> <span
+                                        id="modal-buyer-delivery-note">-</span>
+                                </div>
+                                <div class="col-12 text-muted small">
+                                    결제 ID: <span id="modal-payment-id">-</span>
+                                </div>
+                                <div class="col-md-6 mb-2">
+                                    <span class="font-weight-bold">주문 일시: <span id="modal-order-date">-</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    <div class="col-12 mb-4">
+                        <h6 class="font-weight-bold mb-3 border-bottom pb-2">주문 상품</h6>
+                        <div id="modal-order-items" class="border rounded" style="max-height: 300px; overflow-y: auto;">
+                            
+                        </div>
+                        <div class="text-right mt-3">
+                            <span class="h5">총 결제금액: <span class="font-weight-bold text-primary"
+                                    id="modal-total-amount">0원</span></span>
+                        </div>
+                    </div>
+
+                    
+                    <div class="col-12">
+                        <h6 class="font-weight-bold mb-3 border-bottom pb-2">운송장 정보</h6>
+                        <div class="form-row align-items-end">
+                            <div class="form-group col-md-4">
+                                <label for="tracking-carrier" class="small text-muted mb-1">택배사</label>
+                                <select id="tracking-carrier" class="form-control form-control-sm">
+                                    <option value="">선택하세요</option>
+                                    <option value="cj">CJ대한통운</option>
+                                    <option value="hanjin">한진택배</option>
+                                    <option value="lotte">롯데택배</option>
+                                    <option value="logen">로젠택배</option>
+                                    <option value="post">우체국택배</option>
+                                    <option value="epost">우체국EMS</option>
+                                    <option value="kdexp">경동택배</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-5">
+                                <label for="tracking-number" class="small text-muted mb-1">운송장번호</label>
+                                <input type="text" id="tracking-number" class="form-control form-control-sm"
+                                    placeholder="운송장번호 입력">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <button type="button" id="save-tracking-btn" class="btn btn-success btn-sm btn-block"
+                                    onclick="AdminOrders.saveTrackingInfo()">
+                                    저장
+                                </button>
+                            </div>
+                        </div>
+                        <p id="tracking-status-msg" class="small mt-1"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="archive-order-btn" class="btn btn-warning"
+                    onclick="AdminOrders.archiveOrder()">
+                    <i class="tf-ion-archive"></i> 보관
+                </button>
+                <button type="button" id="delete-order-btn" class="btn btn-danger"
+                    onclick="AdminOrders.confirmDelete()">
+                    <i class="tf-ion-trash-a"></i> 삭제
+                </button>
+                <button type="button" id="track-delivery-btn" class="btn btn-info d-none"
+                    onclick="AdminOrders.openTrackingUrl()">
+                    <i class="tf-ion-ios-location"></i> 배송조회
+                </button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="delete-confirm-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title">주문 삭제 확인</h5>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="닫기">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="mb-2"><strong>정말로 이 주문을 삭제하시겠습니까?</strong></p>
+                <p class="text-danger mb-0"><i class="tf-ion-alert-circled"></i> 이 작업은 되돌릴 수 없습니다.</p>
+                <p id="delete-order-info" class="small text-muted mt-2"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                <button type="button" class="btn btn-danger" id="confirm-delete-btn"
+                    onclick="AdminOrders.deleteOrder()">
+                    <i class="tf-ion-trash-a"></i> 삭제
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="/js/admin-auth.js"></script>
+
+
+<script src="/js/admin-orders.js"></script>
+<footer>
+  <div class="container text-center">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="block">
+          <a href="/ko/" class="mb-4 d-inline-block"
+            style="width: 100px;">
+            
+            
+<div class="img-fluid">
+    
+    
+        
+        
+        <img src="/images/logo.png" alt="휴고 커머스 보일러플레이트" class="img-fluid">
+        
+    
+</div>
+
+            
+          </a>
+          <ul class="list-inline footer-menu">
+            
+            <li class="list-inline-item">
+              <a href="/ko/blog">블로그</a>
+            </li>
+            
+            <li class="list-inline-item">
+              <a href="/ko/contact">연락처</a>
+            </li>
+            
+            <li class="list-inline-item">
+              <a href="/ko/terms-conditions">이용 약관</a>
+            </li>
+            
+            <li class="list-inline-item">
+              <a href="/ko/privacy-policy">개인정보 처리방침</a>
+            </li>
+            
+          </ul>
+          <p class="copyright-text">Copyright © 2026 Your Store. Built with Hugo Commerce Boilerplate.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+
+
+
+<script src="/plugins/jquery/jquery.js"></script>
+
+<script src="/plugins/bootstrap/bootstrap.min.js"></script>
+
+<script src="/plugins/slick/slick.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+
+<script src="/js/admin-core.2d5e86d3ab5fae3bd00f4a42e85739cd16be8aab885715a685cb28b8df5e1a4d.js?v=1773883762"></script>
+
+
+<div id="cart-overlay" onclick="Cart.toggleDrawer()"></div>
+
+
+<div id="cart-drawer">
+  <div class="cart-header">
+    <div class="d-flex align-items-center">
+      <h3>🛒 장바구니</h3>
+      <span class="cart-count" id="cart-item-count">0</span>
+    </div>
+    <button onclick="Cart.toggleDrawer()" class="close-btn" aria-label="Close cart">
+      ×
+    </button>
+  </div>
+
+  <div id="cart-items-container">
+    <div class="cart-loading">
+      <div class="spinner"></div>
+    </div>
+  </div>
+
+  
+<script id="cart-template" type="x-tmpl-mustache">
     [[^items]]
     <div class="empty-cart">
       <div class="empty-icon">🛍️</div>
@@ -107,7 +679,34 @@
         </p>
     </div>
     [[/hasItems]]
-</script><div class=cart-footer style=display:none id=cart-footer><div class=cart-summary><div class=summary-row><span>소계</span>
-<span class=amount id=cart-subtotal>₩0</span></div><div class="summary-row total"><span>총액</span>
-<span class=amount id=cart-total>₩0</span></div></div><button onclick=Cart.checkout() class=checkout-btn id=checkout-btn>
-💳 주문하기</button></div></div><script>document.addEventListener("DOMContentLoaded",function(){window.ShopConfig&&window.Cart&&Cart.init(window.ShopConfig)})</script></body></html>
+</script>
+
+
+  <div class="cart-footer" style="display: none;" id="cart-footer">
+    <div class="cart-summary">
+      <div class="summary-row">
+        <span>소계</span>
+        <span class="amount" id="cart-subtotal">₩0</span>
+      </div>
+      <div class="summary-row total">
+        <span>총액</span>
+        <span class="amount" id="cart-total">₩0</span>
+      </div>
+    </div>
+
+    <button onclick="Cart.checkout()" class="checkout-btn" id="checkout-btn">
+      💳 주문하기
+    </button>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    if (window.ShopConfig && window.Cart) {
+      Cart.init(window.ShopConfig);
+    }
+  });
+</script>
+</body>
+
+</html>

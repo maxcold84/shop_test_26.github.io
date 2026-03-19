@@ -1,28 +1,415 @@
-<!doctype html><html lang=en><head><meta charset=utf-8><title>All latest Smart Watch</title><meta http-equiv=Content-Security-Policy content="default-src 'self' * 'unsafe-inline' 'unsafe-eval' data: blob:;"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><meta name=description content="this is a meta description"><meta name=author content="Codex Boilerplate"><meta name=generator content="Hugo 0.152.2"><meta name=theme-name content="vex-hugo"><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Droid+Serif:400%7cJosefin+Sans:300,400,600,700"><link rel=stylesheet href=/plugins/bootstrap/bootstrap.min.css><link rel=stylesheet href=/plugins/themefisher-font/themefisher-font.min.css><link rel=stylesheet href=/plugins/slick/slick.min.css><link rel=stylesheet href=/scss/style.min.css media=screen><link rel=stylesheet href=/scss/cart-styles.min.css media=screen><link rel="shortcut icon" href=/images/favicon.png type=image/x-icon><link rel=icon href=/images/favicon.png type=image/x-icon><meta property="og:url" content="/en/products/"><meta property="og:site_name" content="Hugo Commerce Boilerplate"><meta property="og:title" content="All latest Smart Watch"><meta property="og:description" content="this is a meta description"><meta property="og:locale" content="en"><meta property="og:type" content="website"><script>window.SiteConfig={pocketbaseUrl:"http://127.0.0.1:8090"}</script><script>window.ShopConfig={paymentsEnabled:!1,storeId:"",currentLanguage:"en",currencyCode:"USD",currencySymbol:"$",channels:{inicis:"",kakaopay:"",korean_payment:""},koreanPaymentPassKey:""}</script><script src=/js/pocketbase.umd.js></script><script src=/js/mustache.min.js></script></head><body id=body><header class="sticky-top bg-white"><div class=container><nav class="navbar navbar-expand-lg navbar-light"><a class=navbar-brand href=/en/ style=width:100px><div class=img-fluid><img src=/images/logo.png alt="Hugo Commerce Boilerplate" class=img-fluid></div></a><button class=cart id=cart-trigger onclick=Cart.toggleDrawer()>
-<i class=tf-ion-android-cart></i>
-</button>
-<button class="navbar-toggler border-0" type=button data-toggle=collapse data-target=#navigation aria-controls=navigation aria-expanded=false aria-label="Toggle navigation">
-<span class=navbar-toggler-icon></span></button><div class="collapse navbar-collapse text-center" id=navigation><ul class="navbar-nav ml-auto"><li class=nav-item><a class=nav-link href=/en/>Home</a></li><li class=nav-item><a class=nav-link href=/en/products>Products</a></li><li class=nav-item><a class=nav-link href=/en/blog>Blog</a></li><li class=nav-item><a class=nav-link href=/en/#testimonial>Review</a></li><li class=nav-item><a class=nav-link href=/en/contact>Contact</a></li><li class=nav-item id=auth-login-link><a class=nav-link href=/en/login>Login</a></li><li class=nav-item id=auth-signup-link><a class=nav-link href=/en/login#signup>Sign
-Up</a></li><li class=nav-item id=auth-logout-link style=display:none><a class=nav-link href=# onclick="return Auth.logout(),!1">Logout</a></li><li class=nav-item id=auth-profile-link style=display:none><a class=nav-link href=/en/profile style=padding-top:0;padding-bottom:0><div class="d-flex align-items-center"><img id=nav-avatar-img src alt=Avatar class="rounded-circle mr-2" style=width:30px;height:30px;object-fit:cover;display:none>
-<i id=nav-avatar-icon class=tf-ion-android-person style=font-size:24px;display:none></i></div></a></li></ul><select class=lang-list id=select-language onchange="location=this.value"><option id=en value=/en/products/ selected>English</option><option id=ko value=/ko/products/>한국어</option></select></div></nav></div></header><section class="section gallery"><div class=container><div class=row><div class="col-12 text-center mb-5"><h1 class=font-weight-bold>All latest Smart Watch</h1></div><div id=product-list-container class="row w-100"><div class="col-12 text-center"><div class=spinner-border role=status><span class=sr-only>로딩 중...</span></div></div></div></div></div></section><script>document.addEventListener("DOMContentLoaded",async function(){const t=document.getElementById("product-list-container"),e="en";function n(e){return window.Utils.formatCurrency(e)}function s(e){return e.discount_price?`${n(e.discount_price)} <s class="text-muted">${n(e.price)}</s>`:n(e.price)}try{console.log("Loading product list from API...");const n=await productsApi.getList({perPage:100,sort:"-order,-created"});n.items&&n.items.length>0?(console.log("Products loaded:",n.items.length),t.innerHTML="",n.items.forEach(n=>{const i=n.images&&n.images.length>0?productsApi.getImageUrl(n,n.images[0],"300x300"):"https://via.placeholder.com/300x300?text=No+Image",r=n.discount_price||n.price,a=`/${e}/products/${n.slug}/`,o=document.createElement("div");o.className="col-lg-3 col-md-4 col-sm-6 mb-4",o.innerHTML=`
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <title>All latest Smart Watch</title>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' * 'unsafe-inline' 'unsafe-eval' data: blob:;">
+
+  <!-- mobile responsive meta -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description"
+    content="this is a meta description">
+  
+  <meta name="author" content="Codex Boilerplate">
+  <meta name="generator" content="Hugo 0.152.2">
+
+  <meta name="theme-name" content="vex-hugo" />
+
+  <!-- plugins -->
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid&#43;Serif:400%7cJosefin&#43;Sans:300,400,600,700">
+  
+  <link rel="stylesheet" href="/plugins/bootstrap/bootstrap.min.css">
+  
+  <link rel="stylesheet" href="/plugins/themefisher-font/themefisher-font.min.css">
+  
+  <link rel="stylesheet" href="/plugins/slick/slick.min.css">
+  
+
+  <!-- Main Stylesheet -->
+  
+  <link rel="stylesheet" href="/scss/style.min.css" media="screen">
+
+  <!-- Cart Styles -->
+  
+  <link rel="stylesheet" href="/scss/cart-styles.min.css" media="screen">
+
+  <!--Favicon-->
+  <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon">
+  <link rel="icon" href="/images/favicon.png" type="image/x-icon">
+
+  
+  <meta property="og:url" content="/en/products/">
+  <meta property="og:site_name" content="Hugo Commerce Boilerplate">
+  <meta property="og:title" content="All latest Smart Watch">
+  <meta property="og:description" content="this is a meta description">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="website">
+
+  
+
+  
+  
+  
+  
+  
+  
+  
+
+  
+
+  <script>
+    window.SiteConfig = {
+      pocketbaseUrl: "http:\/\/127.0.0.1:8090"
+    };
+  </script>
+
+  <script>
+    window.ShopConfig = {
+      paymentsEnabled: false,
+      storeId: "",
+      currentLanguage: "en",
+      currencyCode: "USD",
+      currencySymbol: "$",
+      channels: {
+        "inicis": "",
+        "kakaopay": "",
+        "korean_payment": ""
+      },
+      koreanPaymentPassKey: ""
+    };
+  </script>
+
+  
+  <script src="/js/pocketbase.umd.js"></script>
+
+  
+  <script src="/js/mustache.min.js"></script>
+
+</head>
+<body id="body">
+<header class="sticky-top bg-white">
+  <div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light">
+      <a class="navbar-brand" href="/en/" style="width: 100px;">
+        
+        
+<div class="img-fluid">
+    
+    
+        
+        
+        <img src="/images/logo.png" alt="Hugo Commerce Boilerplate" class="img-fluid">
+        
+    
+</div>
+
+        
+      </a>
+
+      
+      <button class="cart" id="cart-trigger" onclick="Cart.toggleDrawer()">
+        <i class="tf-ion-android-cart"></i>
+      </button>
+
+      <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#navigation"
+        aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse text-center" id="navigation">
+        <ul class="navbar-nav ml-auto">
+          
+          <li class="nav-item">
+            <a class="nav-link"
+              href="/en/">Home</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="nav-link"
+              href="/en/products">Products</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="nav-link"
+              href="/en/blog">Blog</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="nav-link"
+              href="/en/#testimonial">Review</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="nav-link"
+              href="/en/contact">Contact</a>
+          </li>
+          
+          
+
+
+
+<li class="nav-item" id="auth-login-link">
+    <a class="nav-link" href="/en/login">Login</a>
+</li>
+<li class="nav-item" id="auth-signup-link">
+    <a class="nav-link" href="/en/login#signup">Sign
+        Up</a>
+</li>
+<li class="nav-item" id="auth-logout-link" style="display: none;">
+    <a class="nav-link" href="#" onclick="Auth.logout(); return false;">Logout</a>
+</li>
+<li class="nav-item" id="auth-profile-link" style="display: none;">
+    <a class="nav-link" href="/en/profile" style="padding-top: 0; padding-bottom: 0;">
+        <div class="d-flex align-items-center">
+            <img id="nav-avatar-img" src="" alt="Avatar" class="rounded-circle mr-2"
+                style="width: 30px; height: 30px; object-fit: cover; display: none;">
+            <i id="nav-avatar-icon" class="tf-ion-android-person" style="font-size: 24px; display: none;"></i>
+        </div>
+    </a>
+</li>
+        </ul>
+        
+        
+        <select class="lang-list" id="select-language" onchange="location = this.value;">
+          
+          
+          
+          
+          
+          
+          
+          
+          <option id="en" value="/en/products/" selected>English
+          </option>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <option id="ko" value="/ko/products/">한국어</option>
+          
+          
+          
+          
+        </select>
+        
+      </div>
+    </nav>
+  </div>
+</header>
+
+
+<section class="section gallery">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 text-center mb-5">
+        <h1 class="font-weight-bold">All latest Smart Watch</h1>
+      </div>
+
+      <div id="product-list-container" class="row w-100">
+        <div class="col-12 text-center">
+          <div class="spinner-border" role="status">
+            <span class="sr-only">로딩 중...</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', async function () {
+    const container = document.getElementById('product-list-container');
+    const lang = 'en';
+
+    function formatPrice(price) {
+      return window.Utils.formatCurrency(price);
+    }
+
+    function renderPrice(product) {
+      if (product.discount_price) {
+        return `${formatPrice(product.discount_price)} <s class="text-muted">${formatPrice(product.price)}</s>`;
+      }
+
+      return formatPrice(product.price);
+    }
+
+    try {
+      console.log('Loading product list from API...');
+      const result = await productsApi.getList({ perPage: 100, sort: '-order,-created' });
+
+      if (result.items && result.items.length > 0) {
+        console.log('Products loaded:', result.items.length);
+        container.innerHTML = '';
+
+        result.items.forEach(product => {
+          const imageUrl = (product.images && product.images.length > 0)
+            ? productsApi.getImageUrl(product, product.images[0], '300x300')
+            : 'https://via.placeholder.com/300x300?text=No+Image';
+
+          const finalPrice = product.discount_price || product.price;
+          const detailUrl = `/${lang}/products/${product.slug}/`;
+
+          const col = document.createElement('div');
+          col.className = 'col-lg-3 col-md-4 col-sm-6 mb-4';
+          col.innerHTML = `
             <div class="block">
               <div class="gallery-overlay">
-                <a href="${a}" class="gallery-popup">
+                <a href="${detailUrl}" class="gallery-popup">
                   <i class="tf-ion-plus-round"></i>
                 </a>
                 <button class="btn btn-primary btn-main-sm cart-btn"
                   style="position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%); z-index: 10; white-space: nowrap; box-shadow: 0 2px 8px rgba(0,0,0,0.15);">
-                  ${e==="ko"?"🛒 장바구니 추가":"🛒 Add to cart"}
+                  ${lang === 'ko' ? '🛒 장바구니 추가' : '🛒 Add to cart'}
                 </button>
               </div>
-              <img class="img-fluid" src="${i}" alt="${n.title}">
+              <img class="img-fluid" src="${imageUrl}" alt="${product.title}">
             </div>
             <div class="product-info">
-              <h4 class="mb-2"><a href="${a}" class="link-title">${n.title}</a></h4>
-              <p class="price">${s(n)}</p>
+              <h4 class="mb-2"><a href="${detailUrl}" class="link-title">${product.title}</a></h4>
+              <p class="price">${renderPrice(product)}</p>
             </div>
-          `;const c=o.querySelector(".cart-btn");c.addEventListener("click",function(t){t.preventDefault(),typeof Cart!="undefined"&&Cart.addItem?Cart.addItem({id:n.id,name:n.title,price:r,image:i,options:{language:e,currency:e==="ko"?"KRW":"USD"}}):(console.error("Cart is not defined"),alert(e==="ko"?"장바구니 기능을 사용할 수 없습니다.":"Cart is unavailable."))}),t.appendChild(o)})):(console.log("No products found"),t.innerHTML=`<div class="col-12 text-center"><p>${e==="ko"?"등록된 상품이 없습니다.":"No products found."}</p></div>`)}catch(n){console.error("Failed to load products:",n),t.innerHTML=`<div class="col-12 text-center"><p class="text-danger">${e==="ko"?"상품을 불러오는 중 오류가 발생했습니다:":"Failed to load products:"} ${n.message}</p></div>`}})</script><footer><div class="container text-center"><div class=row><div class=col-md-12><div class=block><a href=/en/ class="mb-4 d-inline-block" style=width:100px><div class=img-fluid><img src=/images/logo.png alt="Hugo Commerce Boilerplate" class=img-fluid></div></a><ul class="list-inline footer-menu"><li class=list-inline-item><a href=/en/blog>Blog</a></li><li class=list-inline-item><a href=/en/contact>Contact</a></li><li class=list-inline-item><a href=/en/terms-conditions>Terms & Conditions</a></li><li class=list-inline-item><a href=/en/privacy-policy>Privacy Policy</a></li></ul><p class=copyright-text>Copyright © 2026 Your Store. Built with Hugo Commerce Boilerplate.</p></div></div></div></div></footer><script src=/plugins/jquery/jquery.js></script><script src=/plugins/bootstrap/bootstrap.min.js></script><script src=/plugins/slick/slick.min.js></script><script src=/js/script.js></script><script src="/js/bundle.fc3bd1d6cc6140fd558c9ac8782af66acc24920a9d7b864879dacdbc76192ac5.js?v=1773733504"></script><script>const loginUrl="/en/login"</script><div id=cart-overlay onclick=Cart.toggleDrawer()></div><div id=cart-drawer><div class=cart-header><div class="d-flex align-items-center"><h3>🛒 Cart</h3><span class=cart-count id=cart-item-count>0</span></div><button onclick=Cart.toggleDrawer() class=close-btn aria-label="Close cart">
-×</button></div><div id=cart-items-container><div class=cart-loading><div class=spinner></div></div></div><script id=cart-template type=x-tmpl-mustache>
+          `;
+
+          const cartBtn = col.querySelector('.cart-btn');
+          cartBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            if (typeof Cart !== 'undefined' && Cart.addItem) {
+              Cart.addItem({
+                id: product.id,
+                name: product.title,
+                price: finalPrice,
+                image: imageUrl,
+                options: {
+                  language: lang,
+                  currency: lang === 'ko' ? 'KRW' : 'USD'
+                }
+              });
+            } else {
+              console.error('Cart is not defined');
+              alert(lang === 'ko' ? '장바구니 기능을 사용할 수 없습니다.' : 'Cart is unavailable.');
+            }
+          });
+
+          container.appendChild(col);
+        });
+      } else {
+        console.log('No products found');
+        container.innerHTML = `<div class="col-12 text-center"><p>${lang === 'ko' ? '등록된 상품이 없습니다.' : 'No products found.'}</p></div>`;
+      }
+    } catch (error) {
+      console.error('Failed to load products:', error);
+      container.innerHTML = `<div class="col-12 text-center"><p class="text-danger">${lang === 'ko' ? '상품을 불러오는 중 오류가 발생했습니다:' : 'Failed to load products:'} ${error.message}</p></div>`;
+    }
+  });
+</script>
+
+<footer>
+  <div class="container text-center">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="block">
+          <a href="/en/" class="mb-4 d-inline-block"
+            style="width: 100px;">
+            
+            
+<div class="img-fluid">
+    
+    
+        
+        
+        <img src="/images/logo.png" alt="Hugo Commerce Boilerplate" class="img-fluid">
+        
+    
+</div>
+
+            
+          </a>
+          <ul class="list-inline footer-menu">
+            
+            <li class="list-inline-item">
+              <a href="/en/blog">Blog</a>
+            </li>
+            
+            <li class="list-inline-item">
+              <a href="/en/contact">Contact</a>
+            </li>
+            
+            <li class="list-inline-item">
+              <a href="/en/terms-conditions">Terms &amp; Conditions</a>
+            </li>
+            
+            <li class="list-inline-item">
+              <a href="/en/privacy-policy">Privacy Policy</a>
+            </li>
+            
+          </ul>
+          <p class="copyright-text">Copyright © 2026 Your Store. Built with Hugo Commerce Boilerplate.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+
+
+
+<script src="/plugins/jquery/jquery.js"></script>
+
+<script src="/plugins/bootstrap/bootstrap.min.js"></script>
+
+<script src="/plugins/slick/slick.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+
+<script src="/js/bundle.fc3bd1d6cc6140fd558c9ac8782af66acc24920a9d7b864879dacdbc76192ac5.js?v=1773883762"></script>
+
+
+<script>
+  const loginUrl = "\/en\/login";
+</script>
+
+
+<div id="cart-overlay" onclick="Cart.toggleDrawer()"></div>
+
+
+<div id="cart-drawer">
+  <div class="cart-header">
+    <div class="d-flex align-items-center">
+      <h3>🛒 Cart</h3>
+      <span class="cart-count" id="cart-item-count">0</span>
+    </div>
+    <button onclick="Cart.toggleDrawer()" class="close-btn" aria-label="Close cart">
+      ×
+    </button>
+  </div>
+
+  <div id="cart-items-container">
+    <div class="cart-loading">
+      <div class="spinner"></div>
+    </div>
+  </div>
+
+  
+<script id="cart-template" type="x-tmpl-mustache">
     [[^items]]
     <div class="empty-cart">
       <div class="empty-icon">🛍️</div>
@@ -100,7 +487,34 @@ Up</a></li><li class=nav-item id=auth-logout-link style=display:none><a class=na
         </p>
     </div>
     [[/hasItems]]
-</script><div class=cart-footer style=display:none id=cart-footer><div class=cart-summary><div class=summary-row><span>Subtotal</span>
-<span class=amount id=cart-subtotal>$0.00</span></div><div class="summary-row total"><span>Total</span>
-<span class=amount id=cart-total>$0.00</span></div></div><button onclick=Cart.checkout() class=checkout-btn id=checkout-btn>
-💳 Checkout</button></div></div><script>document.addEventListener("DOMContentLoaded",function(){window.ShopConfig&&window.Cart&&Cart.init(window.ShopConfig)})</script></body></html>
+</script>
+
+
+  <div class="cart-footer" style="display: none;" id="cart-footer">
+    <div class="cart-summary">
+      <div class="summary-row">
+        <span>Subtotal</span>
+        <span class="amount" id="cart-subtotal">$0.00</span>
+      </div>
+      <div class="summary-row total">
+        <span>Total</span>
+        <span class="amount" id="cart-total">$0.00</span>
+      </div>
+    </div>
+
+    <button onclick="Cart.checkout()" class="checkout-btn" id="checkout-btn">
+      💳 Checkout
+    </button>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    if (window.ShopConfig && window.Cart) {
+      Cart.init(window.ShopConfig);
+    }
+  });
+</script>
+</body>
+
+</html>

@@ -1,49 +1,877 @@
-<!doctype html><html lang=ko><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>주문 및 결제 | 휴고 커머스 보일러플레이트</title><head><meta charset=utf-8><title>주문 및 결제</title><meta http-equiv=Content-Security-Policy content="default-src 'self' * 'unsafe-inline' 'unsafe-eval' data: blob:;"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><meta name=description content="배송 정보와 결제 수단을 확인합니다"><meta name=author content="Codex Boilerplate"><meta name=generator content="Hugo 0.152.2"><meta name=theme-name content="vex-hugo"><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Droid+Serif:400%7cJosefin+Sans:300,400,600,700"><link rel=stylesheet href=/plugins/bootstrap/bootstrap.min.css><link rel=stylesheet href=/plugins/themefisher-font/themefisher-font.min.css><link rel=stylesheet href=/plugins/slick/slick.min.css><link rel=stylesheet href=/scss/style.min.css media=screen><link rel=stylesheet href=/scss/cart-styles.min.css media=screen><link rel="shortcut icon" href=/images/favicon.png type=image/x-icon><link rel=icon href=/images/favicon.png type=image/x-icon><meta property="og:url" content="/ko/checkout/"><meta property="og:site_name" content="휴고 커머스 보일러플레이트"><meta property="og:title" content="주문 및 결제"><meta property="og:description" content="배송 정보와 결제 수단을 확인합니다"><meta property="og:locale" content="ko"><meta property="og:type" content="article"><meta property="article:published_time" content="2023-10-27T12:00:00+09:00"><meta property="article:modified_time" content="2023-10-27T12:00:00+09:00"><script>window.SiteConfig={pocketbaseUrl:"http://127.0.0.1:8090"}</script><script>window.ShopConfig={paymentsEnabled:!1,storeId:"",currentLanguage:"ko",currencyCode:"KRW",currencySymbol:"₩",channels:{inicis:"",kakaopay:"",korean_payment:""},koreanPaymentPassKey:""}</script><script src=/js/pocketbase.umd.js></script><script src=/js/mustache.min.js></script></head><script src=https://cdn.tailwindcss.com></script><script src=https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js></script></head><body class=bg-gray-50><div class="min-h-screen pb-20"><header class="bg-white border-b px-4 py-3 sticky top-0 z-10"><h1 class="text-lg font-bold text-center">주문 및 결제</h1></header><main class="max-w-md mx-auto p-4 space-y-6"><section class="bg-white rounded-lg shadow-sm border p-4"><h2 class="font-bold mb-4 text-gray-800">배송지 정보</h2><form id=shipping-form class=space-y-3><div><label class="block text-sm font-medium text-gray-700 mb-1">받는 분</label>
-<input type=text name=receiver required class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors" placeholder="이름을 입력하세요"></div><div><label class="block text-sm font-medium text-gray-700 mb-1">휴대폰</label>
-<input type=tel name=phone required class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors" placeholder=010-0000-0000></div><div><label class="block text-sm font-medium text-gray-700 mb-1">주소</label><div class="flex gap-2 mb-2"><input type=text id=postcode name=postcode placeholder=우편번호 readonly class="w-24 px-3 py-2 border rounded-lg bg-gray-50 text-gray-600">
-<button type=button onclick=openPostcode() class="flex-1 bg-gray-800 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-700 transition-colors">주소
-검색</button></div><input type=text id=address name=address placeholder="기본 주소" readonly class="w-full px-3 py-2 border rounded-lg bg-gray-50 text-gray-600 mb-2">
-<input type=text id=detailAddress name=detailAddress placeholder="상세 주소를 입력하세요" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors">
-<input type=hidden id=extraAddress name=extraAddress>
-<span id=guide class="text-xs text-gray-500 mt-1" style=display:none></span></div><div><label class="block text-sm font-medium text-gray-700 mb-1">배송 메모</label>
-<input type=text name=deliveryNote class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors" placeholder="예) 문 앞에 놓아주세요."></div><div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pt-2"><div class="flex items-center gap-2"><input type=checkbox id=save-address class="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
-<label for=save-address class="text-sm text-gray-600">다음에도 사용할게요</label></div><button type=button id=load-member-info class="text-sm bg-blue-50 text-blue-600 px-4 py-2 rounded-lg font-medium hover:bg-blue-100 transition-colors border border-blue-200">
-회원 정보 불러오기</button></div></form></section><section class="bg-white rounded-lg shadow-sm border p-4"><h2 class="font-bold mb-4 text-gray-800">주문 상품</h2><div id=cart-items class="space-y-4 divide-y"><div class="text-center py-8 text-gray-500"><div class="animate-spin inline-block w-6 h-6 border-[3px] border-current border-t-transparent text-gray-400 rounded-full" role=status aria-label=loading></div></div></div></section><section class="bg-white rounded-lg shadow-sm border p-4"><h2 class="font-bold mb-4 text-gray-800">결제 수단</h2><div class=space-y-4><div class="flex flex-wrap gap-3" id=payment-methods></div><div id=payment-forms class=mt-4><div id=form-inicis class="payment-form hidden space-y-3"><div><label class="block text-sm font-medium text-gray-700 mb-1">이름</label>
-<input type=text id=inicis-name class="w-full px-3 py-2 border rounded-lg" placeholder=홍길동></div><div><label class="block text-sm font-medium text-gray-700 mb-1">이메일</label>
-<input type=email id=inicis-email class="w-full px-3 py-2 border rounded-lg" placeholder=example@email.com list=emailDomains><div id=inicis-email-suggestion class="text-xs text-blue-600 mt-1" style=display:none>혹시 <a href=# class="underline font-medium"></a>을(를) 의미하셨나요?</div></div><div><label class="block text-sm font-medium text-gray-700 mb-1">휴대폰</label>
-<input type=tel id=inicis-phone class="w-full px-3 py-2 border rounded-lg" placeholder=010-1234-5678></div></div><div id=form-korean_payment class="payment-form hidden space-y-3"><div><label class="block text-sm font-medium text-gray-700 mb-1">이름</label>
-<input type=text id=korean-name class="w-full px-3 py-2 border rounded-lg" placeholder=홍길동></div><div><label class="block text-sm font-medium text-gray-700 mb-1">이메일</label>
-<input type=email id=korean-email class="w-full px-3 py-2 border rounded-lg" placeholder=example@email.com list=emailDomains><div id=korean-email-suggestion class="text-xs text-blue-600 mt-1" style=display:none>혹시 <a href=# class="underline font-medium"></a>을(를) 의미하셨나요?</div></div><div><label class="block text-sm font-medium text-gray-700 mb-1">휴대폰</label>
-<input type=tel id=korean-phone class="w-full px-3 py-2 border rounded-lg" placeholder=010-1234-5678></div></div><div id=form-kakaopay class="payment-form hidden"><div class="bg-yellow-100 text-yellow-800 p-3 rounded-lg text-center text-sm">카카오페이로 간편하게 결제하세요! 🟡</div></div></div></div></section><section class="bg-white rounded-lg shadow-sm border p-4"><div class="flex justify-between items-center"><span class="font-bold text-gray-800">총 결제금액</span>
-<span class="text-xl font-bold text-blue-600" id=total-amount>₩0</span></div></section></main><div class="fixed bottom-0 left-0 right-0 p-4 bg-white border-t safe-area-bottom"><div class="max-w-md mx-auto flex gap-3"><button type=button onclick=history.back() class="w-1/3 bg-gray-100 text-gray-700 py-3.5 rounded-xl font-bold text-lg hover:bg-gray-200 active:bg-gray-300 transition-colors">
-쇼핑계속하기
-</button>
-<button id=pay-button class="flex-1 bg-blue-600 text-white py-3.5 rounded-xl font-bold text-lg hover:bg-blue-700 active:bg-blue-800 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed">
-결제하기</button></div></div></div><div id=toast class="fixed top-4 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-4 py-2 rounded-lg shadow-lg text-sm opacity-0 transition-opacity duration-300 pointer-events-none z-50">메시지</div><div id=daum-layer class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden"><div class="bg-white w-full max-w-md h-[500px] relative rounded-lg overflow-hidden shadow-xl mx-4"><button type=button onclick=closePostcode() class="absolute top-0 right-0 m-2 text-gray-500 hover:text-gray-800 z-10 p-2">
-<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 18 6M6 6l12 12"/></svg></button><div id=daum-postcode-container class="w-full h-full"></div></div></div><datalist id=emailDomains><option value=@gmail.com></option><option value=@naver.com></option><option value=@daum.net></option><option value=@outlook.com></option><option value=@kakao.com></option><option value=@hanmail.net></option><option value=@nate.com></option></datalist><script>const layer=document.getElementById("daum-layer"),container=document.getElementById("daum-postcode-container");function closePostcode(){layer.classList.add("hidden")}function openPostcode(){new daum.Postcode({oncomplete:function(e){var n,o,i,s=e.roadAddress,t="";e.bname!==""&&/[동|로|가]$/g.test(e.bname)&&(t+=e.bname),e.buildingName!==""&&e.apartment==="Y"&&(t+=t!==""?", "+e.buildingName:e.buildingName),t!==""&&(t=" ("+t+")"),document.getElementById("postcode").value=e.zonecode,e.userSelectedType==="R"?document.getElementById("address").value=s:document.getElementById("address").value=e.jibunAddress,s!==""?document.getElementById("extraAddress").value=t:document.getElementById("extraAddress").value="",n=document.getElementById("guide"),e.autoRoadAddress?(o=e.autoRoadAddress+t,n.innerHTML="(예상 도로명 주소 : "+o+")",n.style.display=" block"):e.autoJibunAddress?(i=e.autoJibunAddress,n.innerHTML="(예상 지번 주소 : "+i+")",n.style.display="block"):(n.innerHTML="",n.style.display="none"),document.getElementById("detailAddress").focus(),closePostcode()},width:"100%",height:"100%",maxSuggestItems:5}).embed(container),layer.classList.remove("hidden")}</script><script src=https://cdn.jsdelivr.net/npm/mailcheck@1.1.2/src/mailcheck.min.js></script><script>document.addEventListener("DOMContentLoaded",function(){if(console.log("DOM loaded, checking dependencies..."),typeof PocketBase=="undefined"){console.error("PocketBase is not loaded!"),alert("시스템 초기화 오류: PocketBase 로딩 실패");return}if(typeof window.ShopConfig=="undefined"){console.error("ShopConfig is not defined!"),alert("시스템 초기화 오류: ShopConfig가 정의되지 않음");return}console.log("Dependencies OK, initializing...");const o=new PocketBase(window.SiteConfig?.pocketbaseUrl||"http://127.0.0.1:8090"),e=o.authStore.model;let n=[],i=0;const l=document.getElementById("cart-items"),_=document.getElementById("total-amount"),s=document.getElementById("pay-button"),a=document.getElementById("shipping-form"),c=document.getElementById("payment-methods"),f=document.getElementById("load-member-info"),r=window.ShopConfig.currentLanguage||(document.documentElement.lang||"ko").slice(0,2),u=window.ShopConfig.currencyCode||(r==="ko"?"KRW":"USD"),m=e=>window.Utils?.formatCurrency?window.Utils.formatCurrency(e,u):new Intl.NumberFormat(r==="ko"?"ko-KR":"en-US",{style:"currency",currency:u}).format(e),t=(e,t=!1)=>{const n=document.getElementById("toast");n.textContent=e,n.className=`fixed top-4 left-1/2 transform -translate-x-1/2 px-4 py-2 rounded-lg shadow-lg text-sm transition-opacity duration-300 pointer-events-none z-50 ${t?"bg-red-600 text-white":"bg-gray-800 text-white"}`,n.style.opacity="1",setTimeout(()=>n.style.opacity="0",3e3)};function v(){if(!window.ShopConfig.paymentsEnabled){c.innerHTML=`
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>주문 및 결제 | 휴고 커머스 보일러플레이트</title><head>
+  <meta charset="utf-8">
+  <title>주문 및 결제</title>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' * 'unsafe-inline' 'unsafe-eval' data: blob:;">
+
+  <!-- mobile responsive meta -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description"
+    content="배송 정보와 결제 수단을 확인합니다">
+  
+  <meta name="author" content="Codex Boilerplate">
+  <meta name="generator" content="Hugo 0.152.2">
+
+  <meta name="theme-name" content="vex-hugo" />
+
+  <!-- plugins -->
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid&#43;Serif:400%7cJosefin&#43;Sans:300,400,600,700">
+  
+  <link rel="stylesheet" href="/plugins/bootstrap/bootstrap.min.css">
+  
+  <link rel="stylesheet" href="/plugins/themefisher-font/themefisher-font.min.css">
+  
+  <link rel="stylesheet" href="/plugins/slick/slick.min.css">
+  
+
+  <!-- Main Stylesheet -->
+  
+  <link rel="stylesheet" href="/scss/style.min.css" media="screen">
+
+  <!-- Cart Styles -->
+  
+  <link rel="stylesheet" href="/scss/cart-styles.min.css" media="screen">
+
+  <!--Favicon-->
+  <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon">
+  <link rel="icon" href="/images/favicon.png" type="image/x-icon">
+
+  
+  <meta property="og:url" content="/ko/checkout/">
+  <meta property="og:site_name" content="휴고 커머스 보일러플레이트">
+  <meta property="og:title" content="주문 및 결제">
+  <meta property="og:description" content="배송 정보와 결제 수단을 확인합니다">
+  <meta property="og:locale" content="ko">
+  <meta property="og:type" content="article">
+    <meta property="article:published_time" content="2023-10-27T12:00:00+09:00">
+    <meta property="article:modified_time" content="2023-10-27T12:00:00+09:00">
+
+  
+
+  
+  
+  
+  
+  
+  
+  
+
+  
+
+  <script>
+    window.SiteConfig = {
+      pocketbaseUrl: "http:\/\/127.0.0.1:8090"
+    };
+  </script>
+
+  <script>
+    window.ShopConfig = {
+      paymentsEnabled: false,
+      storeId: "",
+      currentLanguage: "ko",
+      currencyCode: "KRW",
+      currencySymbol: "₩",
+      channels: {
+        "inicis": "",
+        "kakaopay": "",
+        "korean_payment": ""
+      },
+      koreanPaymentPassKey: ""
+    };
+  </script>
+
+  
+  <script src="/js/pocketbase.umd.js"></script>
+
+  
+  <script src="/js/mustache.min.js"></script>
+
+</head>
+<script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+</head>
+
+<body class="bg-gray-50">
+<div class="min-h-screen pb-20">
+    <header class="bg-white border-b px-4 py-3 sticky top-0 z-10">
+        <h1 class="text-lg font-bold text-center">주문 및 결제</h1>
+    </header>
+
+    <main class="max-w-md mx-auto p-4 space-y-6">
+        <section class="bg-white rounded-lg shadow-sm border p-4">
+    <h2 class="font-bold mb-4 text-gray-800">배송지 정보</h2>
+    <form id="shipping-form" class="space-y-3">
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">받는 분</label>
+            <input type="text" name="receiver" required
+                class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
+                placeholder="이름을 입력하세요">
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">휴대폰</label>
+            <input type="tel" name="phone" required
+                class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
+                placeholder="010-0000-0000">
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">주소</label>
+            <div class="flex gap-2 mb-2">
+                <input type="text" id="postcode" name="postcode" placeholder="우편번호" readonly
+                    class="w-24 px-3 py-2 border rounded-lg bg-gray-50 text-gray-600">
+                <button type="button" onclick="openPostcode()"
+                    class="flex-1 bg-gray-800 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-700 transition-colors">주소
+                    검색</button>
+            </div>
+            <input type="text" id="address" name="address" placeholder="기본 주소" readonly
+                class="w-full px-3 py-2 border rounded-lg bg-gray-50 text-gray-600 mb-2">
+            <input type="text" id="detailAddress" name="detailAddress" placeholder="상세 주소를 입력하세요"
+                class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors">
+            <input type="hidden" id="extraAddress" name="extraAddress">
+            <span id="guide" class="text-xs text-gray-500 mt-1" style="display:none;"></span>
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">배송 메모</label>
+            <input type="text" name="deliveryNote"
+                class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
+                placeholder="예) 문 앞에 놓아주세요.">
+        </div>
+
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pt-2">
+            <div class="flex items-center gap-2">
+                <input type="checkbox" id="save-address"
+                    class="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                <label for="save-address" class="text-sm text-gray-600">다음에도 사용할게요</label>
+            </div>
+            <button type="button" id="load-member-info"
+                class="text-sm bg-blue-50 text-blue-600 px-4 py-2 rounded-lg font-medium hover:bg-blue-100 transition-colors border border-blue-200">
+                회원 정보 불러오기
+            </button>
+        </div>
+    </form>
+</section>
+        <section class="bg-white rounded-lg shadow-sm border p-4">
+    <h2 class="font-bold mb-4 text-gray-800">주문 상품</h2>
+    <div id="cart-items" class="space-y-4 divide-y">
+        
+        <div class="text-center py-8 text-gray-500">
+            <div class="animate-spin inline-block w-6 h-6 border-[3px] border-current border-t-transparent text-gray-400 rounded-full"
+                role="status" aria-label="loading"></div>
+        </div>
+    </div>
+</section>
+        <section class="bg-white rounded-lg shadow-sm border p-4">
+    <h2 class="font-bold mb-4 text-gray-800">결제 수단</h2>
+    <div class="space-y-4">
+        <div class="flex flex-wrap gap-3" id="payment-methods">
+            
+        </div>
+
+        
+        <div id="payment-forms" class="mt-4">
+            
+            <div id="form-inicis" class="payment-form hidden space-y-3">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">이름</label>
+                    <input type="text" id="inicis-name" class="w-full px-3 py-2 border rounded-lg" placeholder="홍길동">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">이메일</label>
+                    <input type="email" id="inicis-email" class="w-full px-3 py-2 border rounded-lg"
+                        placeholder="example@email.com" list="emailDomains">
+                    <div id="inicis-email-suggestion" class="text-xs text-blue-600 mt-1" style="display: none;">
+                        혹시 <a href="#" class="underline font-medium"></a>을(를) 의미하셨나요?
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">휴대폰</label>
+                    <input type="tel" id="inicis-phone" class="w-full px-3 py-2 border rounded-lg"
+                        placeholder="010-1234-5678">
+                </div>
+            </div>
+
+            
+            <div id="form-korean_payment" class="payment-form hidden space-y-3">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">이름</label>
+                    <input type="text" id="korean-name" class="w-full px-3 py-2 border rounded-lg" placeholder="홍길동">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">이메일</label>
+                    <input type="email" id="korean-email" class="w-full px-3 py-2 border rounded-lg"
+                        placeholder="example@email.com" list="emailDomains">
+                    <div id="korean-email-suggestion" class="text-xs text-blue-600 mt-1" style="display: none;">
+                        혹시 <a href="#" class="underline font-medium"></a>을(를) 의미하셨나요?
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">휴대폰</label>
+                    <input type="tel" id="korean-phone" class="w-full px-3 py-2 border rounded-lg"
+                        placeholder="010-1234-5678">
+                </div>
+            </div>
+
+            
+            <div id="form-kakaopay" class="payment-form hidden">
+                <div class="bg-yellow-100 text-yellow-800 p-3 rounded-lg text-center text-sm">
+                    카카오페이로 간편하게 결제하세요! 🟡
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+        <section class="bg-white rounded-lg shadow-sm border p-4">
+    <div class="flex justify-between items-center">
+        <span class="font-bold text-gray-800">총 결제금액</span>
+        <span class="text-xl font-bold text-blue-600" id="total-amount">₩0</span>
+    </div>
+</section>
+
+    </main>
+
+    <div class="fixed bottom-0 left-0 right-0 p-4 bg-white border-t safe-area-bottom">
+    <div class="max-w-md mx-auto flex gap-3">
+        <button type="button" onclick="history.back()"
+            class="w-1/3 bg-gray-100 text-gray-700 py-3.5 rounded-xl font-bold text-lg hover:bg-gray-200 active:bg-gray-300 transition-colors">
+            쇼핑계속하기
+        </button>
+        <button id="pay-button"
+            class="flex-1 bg-blue-600 text-white py-3.5 rounded-xl font-bold text-lg hover:bg-blue-700 active:bg-blue-800 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed">
+            결제하기
+        </button>
+    </div>
+</div>
+</div>
+
+
+<div id="toast"
+    class="fixed top-4 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-4 py-2 rounded-lg shadow-lg text-sm opacity-0 transition-opacity duration-300 pointer-events-none z-50">
+    메시지
+</div>
+
+
+<div id="daum-layer" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
+    <div class="bg-white w-full max-w-md h-[500px] relative rounded-lg overflow-hidden shadow-xl mx-4">
+        <button type="button" onclick="closePostcode()"
+            class="absolute top-0 right-0 m-2 text-gray-500 hover:text-gray-800 z-10 p-2">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        </button>
+        <div id="daum-postcode-container" class="w-full h-full"></div>
+    </div>
+</div>
+
+
+<datalist id="emailDomains">
+    <option value="@gmail.com"></option>
+    <option value="@naver.com"></option>
+    <option value="@daum.net"></option>
+    <option value="@outlook.com"></option>
+    <option value="@kakao.com"></option>
+    <option value="@hanmail.net"></option>
+    <option value="@nate.com"></option>
+</datalist>
+<script>
+    const layer = document.getElementById('daum-layer');
+    const container = document.getElementById('daum-postcode-container');
+
+    function closePostcode() {
+        layer.classList.add('hidden');
+    }
+
+    function openPostcode() {
+        new daum.Postcode({
+            oncomplete: function (data) {
+                var roadAddr = data.roadAddress;
+                var extraRoadAddr = '';
+
+                if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
+                    extraRoadAddr += data.bname;
+                }
+                if (data.buildingName !== '' && data.apartment === 'Y') {
+                    extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                }
+                if (extraRoadAddr !== '') {
+                    extraRoadAddr = ' (' + extraRoadAddr + ')';
+                }
+
+                document.getElementById('postcode').value = data.zonecode;
+
+                if (data.userSelectedType === 'R') {
+                    document.getElementById("address").value = roadAddr;
+                } else {
+                    document.getElementById("address").value = data.jibunAddress;
+                }
+
+                if (roadAddr !== '') {
+                    document.getElementById("extraAddress").value = extraRoadAddr;
+                } else {
+                    document.getElementById("extraAddress").value = '';
+                }
+
+                var guideTextBox = document.getElementById("guide");
+                if (data.autoRoadAddress) {
+                    var expRoadAddr = data.autoRoadAddress + extraRoadAddr;
+                    guideTextBox.innerHTML = '(예상 도로명 주소 : ' + expRoadAddr + ')';
+                    guideTextBox.style.display = ' block';
+                } else if (data.autoJibunAddress) {
+                    var expJibunAddr = data.autoJibunAddress;
+                    guideTextBox.innerHTML = '(예상 지번 주소 : ' + expJibunAddr + ')';
+                    guideTextBox.style.display = 'block';
+                } else {
+                    guideTextBox.innerHTML = '';
+                    guideTextBox.style.display = 'none';
+                }
+
+                document.getElementById("detailAddress").focus();
+                closePostcode();
+            },
+            width: '100%',
+            height: '100%',
+            maxSuggestItems: 5
+        }).embed(container);
+
+        layer.classList.remove('hidden');
+    }
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mailcheck@1.1.2/src/mailcheck.min.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        console.log('DOM loaded, checking dependencies...');
+
+        
+        if (typeof PocketBase === 'undefined') {
+            console.error('PocketBase is not loaded!');
+            alert('시스템 초기화 오류: PocketBase 로딩 실패');
+            return;
+        }
+
+        
+        if (typeof window.ShopConfig === 'undefined') {
+            console.error('ShopConfig is not defined!');
+            alert('시스템 초기화 오류: ShopConfig가 정의되지 않음');
+            return;
+        }
+
+        console.log('Dependencies OK, initializing...');
+
+        const pb = new PocketBase(window.SiteConfig?.pocketbaseUrl || 'http://127.0.0.1:8090');
+        const currentUser = pb.authStore.model;
+
+        let cartItems = [];
+        let totalAmount = 0;
+
+        const cartContainer = document.getElementById('cart-items');
+        const totalEl = document.getElementById('total-amount');
+        const payBtn = document.getElementById('pay-button');
+        const shippingForm = document.getElementById('shipping-form');
+        const paymentMethodsContainer = document.getElementById('payment-methods');
+        const loadMemberInfoBtn = document.getElementById('load-member-info');
+
+        const currentLanguage = window.ShopConfig.currentLanguage || (document.documentElement.lang || 'ko').slice(0, 2);
+        const currentCurrency = window.ShopConfig.currencyCode || (currentLanguage === 'ko' ? 'KRW' : 'USD');
+        const formatPrice = (price) => window.Utils?.formatCurrency ? window.Utils.formatCurrency(price, currentCurrency) : new Intl.NumberFormat(currentLanguage === 'ko' ? 'ko-KR' : 'en-US', { style: 'currency', currency: currentCurrency }).format(price);
+
+        const showToast = (msg, isError = false) => {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.className = `fixed top-4 left-1/2 transform -translate-x-1/2 px-4 py-2 rounded-lg shadow-lg text-sm transition-opacity duration-300 pointer-events-none z-50 ${isError ? 'bg-red-600 text-white' : 'bg-gray-800 text-white'}`;
+            toast.style.opacity = '1';
+            setTimeout(() => toast.style.opacity = '0', 3000);
+        };
+
+        function initPaymentMethods() {
+            if (!window.ShopConfig.paymentsEnabled) {
+                paymentMethodsContainer.innerHTML = `
                     <div class="rounded-lg border border-yellow-300 bg-yellow-50 px-4 py-3 text-sm text-yellow-800">
                         결제 설정이 아직 비어 있습니다. <code>config/_default/hugo.toml</code>에서 PortOne 스토어 ID와 채널 키를 먼저 설정해주세요.
                     </div>
-                `,s.disabled=!0;return}if(!window.ShopConfig.channels){console.error("ShopConfig.channels not found!");return}const t=Object.fromEntries(Object.entries(window.ShopConfig.channels).filter(([,e])=>Boolean(e)));if(Object.keys(t).length===0){c.innerHTML=`
+                `;
+                payBtn.disabled = true;
+                return;
+            }
+
+            if (!window.ShopConfig.channels) {
+                console.error('ShopConfig.channels not found!');
+                return;
+            }
+
+            const channels = Object.fromEntries(
+                Object.entries(window.ShopConfig.channels).filter(([, value]) => Boolean(value))
+            );
+
+            if (Object.keys(channels).length === 0) {
+                paymentMethodsContainer.innerHTML = `
                     <div class="rounded-lg border border-yellow-300 bg-yellow-50 px-4 py-3 text-sm text-yellow-800">
                         활성화된 결제 채널이 없습니다. PortOne 채널 키를 하나 이상 입력해주세요.
                     </div>
-                `,s.disabled=!0;return}let n="",e=!0;for(const[s,i]of Object.entries(t)){let o=s.toUpperCase();s==="inicis"&&(o="KG 이니시스"),s==="kakaopay"&&(o="카카오페이"),s==="korean_payment"&&(o="한국결제 네트워크"),n+=`
-                <label class="cursor-pointer border rounded-lg p-3 flex items-center gap-2 hover:bg-gray-50 transition-colors ${e?"border-blue-500 ring-1 ring-blue-500":""}">
-                    <input type="radio" name="payment-method" value="${s}" class="text-blue-600 focus:ring-blue-500" ${e?"checked":""}>
-                    <span class="text-sm font-medium text-gray-700">${o}</span>
+                `;
+                payBtn.disabled = true;
+                return;
+            }
+            let html = '';
+            let isFirst = true;
+
+            for (const [key, value] of Object.entries(channels)) {
+                let label = key.toUpperCase();
+                if (key === 'inicis') label = 'KG 이니시스';
+                if (key === 'kakaopay') label = '카카오페이';
+                if (key === 'korean_payment') label = '한국결제 네트워크';
+
+                html += `
+                <label class="cursor-pointer border rounded-lg p-3 flex items-center gap-2 hover:bg-gray-50 transition-colors ${isFirst ? 'border-blue-500 ring-1 ring-blue-500' : ''}">
+                    <input type="radio" name="payment-method" value="${key}" class="text-blue-600 focus:ring-blue-500" ${isFirst ? 'checked' : ''}>
+                    <span class="text-sm font-medium text-gray-700">${label}</span>
                 </label>
-            `,e=!1}c.innerHTML=n;const o=c.querySelectorAll('input[name="payment-method"]');o.forEach(e=>{e.addEventListener("change",e=>{o.forEach(e=>e.closest("label").classList.remove("border-blue-500","ring-1","ring-blue-500")),e.target.closest("label").classList.add("border-blue-500","ring-1","ring-blue-500"),p(e.target.value)})});const i=c.querySelector("input:checked");i&&p(i.value)}function h(e,t){const s=document.getElementById(e),n=document.getElementById(t);if(!s||!n)return;if(typeof Mailcheck=="undefined"){console.warn("Mailcheck.js not loaded");return}const o=n.querySelector("a");s.addEventListener("blur",function(){const e=s.value.trim();if(!e){n.style.display="none";return}Mailcheck.run({email:e,domains:["gmail.com","naver.com","daum.net","kakao.com","outlook.com","hanmail.net","nate.com"],topLevelDomains:["com","net","org","kr"],suggested:function(e){o.textContent=e.full,n.style.display="block",o.onclick=function(t){t.preventDefault(),s.value=e.full,n.style.display="none"}},empty:function(){n.style.display="none"}})})}function p(t){document.querySelectorAll(".payment-form").forEach(e=>e.classList.add("hidden"));const n=document.getElementById(`form-${t}`);n&&n.classList.remove("hidden"),e&&(t==="inicis"?(document.getElementById("inicis-name").value=e.name||"",document.getElementById("inicis-email").value=e.email||"",document.getElementById("inicis-phone").value=e.phone||""):t==="korean_payment"&&(document.getElementById("korean-name").value=e.name||"",document.getElementById("korean-email").value=e.email||"",document.getElementById("korean-phone").value=e.phone||""))}async function b(){try{if(window.Cart&&typeof window.Cart.getItems=="function"){n=await window.Cart.getItems(),d();return}const e=localStorage.getItem("cart_id");if(!e){n=[],d();return}const t=await o.collection("cart_items").getFullList({filter:`cart="${e}"`,sort:"-created"});n=t.filter(e=>{const t=e.options&&typeof e.options=="object"&&!Array.isArray(e.options)?e.options:{};return!t.language||t.language===r}),d()}catch(e){console.error("Failed to load cart:",e),l.innerHTML=`<div class="text-center py-8 text-red-500">${r==="ko"?"장바구니를 불러오는데 실패했습니다.":"Failed to load your cart."}</div>`}}function j(){const s=localStorage.getItem("saved_shipping_address");if(s)try{const e=JSON.parse(s);document.getElementById("postcode").value=e.postcode||"",document.getElementById("address").value=e.address||"",document.getElementById("detailAddress").value=e.detailAddress||"",document.getElementById("extraAddress").value=e.extraAddress||""}catch(e){console.warn("Failed to parse saved address:",e)}if(!e)return;const t=a.querySelector('input[name="receiver"]'),n=a.querySelector('input[name="phone"]');t&&!t.value&&e.name&&(t.value=e.name),n&&!n.value&&e.phone&&(n.value=e.phone)}function y(){if(!e){t("로그인이 필요합니다.",!0);return}const n=a.querySelector('input[name="receiver"]'),s=a.querySelector('input[name="phone"]'),o=document.getElementById("postcode"),i=document.getElementById("address"),r=document.getElementById("detailAddress"),c=document.getElementById("extraAddress");e.name&&(n.value=e.name),e.phone&&(s.value=e.phone),e.postcode&&(o.value=e.postcode),e.address&&(i.value=e.address),e.detailAddress&&(r.value=e.detailAddress),e.extraAddress&&(c.value=e.extraAddress),t("회원 정보를 불러왔습니다.")}f&&f.addEventListener("click",y);function d(){if(n.length===0){l.innerHTML=`<div class="text-center py-8 text-gray-500">${r==="ko"?"장바구니가 비어있습니다.":"Your cart is empty."}</div>`,i=0,g();return}let e="",t=0;n.forEach(n=>{const s=n.name||"상품";if(!s){console.warn("Product info missing for item:",n);return}const l=n.price||0,i=n.quantity||1,a=l*i;t+=a;const c=n.image||"https://via.placeholder.com/80",o=n.productLink||null;e+=`
+            `;
+                isFirst = false;
+            }
+
+            paymentMethodsContainer.innerHTML = html;
+
+            const inputs = paymentMethodsContainer.querySelectorAll('input[name="payment-method"]');
+            inputs.forEach(input => {
+                input.addEventListener('change', (e) => {
+                    inputs.forEach(i => i.closest('label').classList.remove('border-blue-500', 'ring-1', 'ring-blue-500'));
+                    e.target.closest('label').classList.add('border-blue-500', 'ring-1', 'ring-blue-500');
+                    updatePaymentForms(e.target.value);
+                });
+            });
+
+            const checked = paymentMethodsContainer.querySelector('input:checked');
+            if (checked) updatePaymentForms(checked.value);
+        }
+
+        function setupEmailAutocomplete(emailInputId, suggestionDivId) {
+            const emailInput = document.getElementById(emailInputId);
+            const suggestionDiv = document.getElementById(suggestionDivId);
+
+            if (!emailInput || !suggestionDiv) return;
+
+            
+            if (typeof Mailcheck === 'undefined') {
+                console.warn('Mailcheck.js not loaded');
+                return;
+            }
+
+            const suggestionLink = suggestionDiv.querySelector('a');
+
+            emailInput.addEventListener('blur', function () {
+                const email = emailInput.value.trim();
+                if (!email) {
+                    suggestionDiv.style.display = 'none';
+                    return;
+                }
+
+                Mailcheck.run({
+                    email: email,
+                    domains: ['gmail.com', 'naver.com', 'daum.net', 'kakao.com', 'outlook.com', 'hanmail.net', 'nate.com'],
+                    topLevelDomains: ['com', 'net', 'org', 'kr'],
+                    suggested: function (suggestion) {
+                        suggestionLink.textContent = suggestion.full;
+                        suggestionDiv.style.display = 'block';
+
+                        suggestionLink.onclick = function (e) {
+                            e.preventDefault();
+                            emailInput.value = suggestion.full;
+                            suggestionDiv.style.display = 'none';
+                        };
+                    },
+                    empty: function () {
+                        suggestionDiv.style.display = 'none';
+                    }
+                });
+            });
+        }
+
+        function updatePaymentForms(selectedChannel) {
+            document.querySelectorAll('.payment-form').forEach(el => el.classList.add('hidden'));
+            const form = document.getElementById(`form-${selectedChannel}`);
+            if (form) form.classList.remove('hidden');
+
+            
+            if (currentUser) {
+                if (selectedChannel === 'inicis') {
+                    document.getElementById('inicis-name').value = currentUser.name || '';
+                    document.getElementById('inicis-email').value = currentUser.email || '';
+                    document.getElementById('inicis-phone').value = currentUser.phone || '';
+                } else if (selectedChannel === 'korean_payment') {
+                    document.getElementById('korean-name').value = currentUser.name || '';
+                    document.getElementById('korean-email').value = currentUser.email || '';
+                    document.getElementById('korean-phone').value = currentUser.phone || '';
+                }
+            }
+        }
+
+        async function loadCart() {
+            try {
+                if (window.Cart && typeof window.Cart.getItems === 'function') {
+                    cartItems = await window.Cart.getItems();
+                    renderCart();
+                    return;
+                }
+
+                const cartId = localStorage.getItem('cart_id');
+                if (!cartId) {
+                    cartItems = [];
+                    renderCart();
+                    return;
+                }
+
+                const records = await pb.collection('cart_items').getFullList({
+                    filter: `cart="${cartId}"`,
+                    sort: '-created',
+                });
+
+                cartItems = records.filter(item => {
+                    const options = item.options && typeof item.options === 'object' && !Array.isArray(item.options) ? item.options : {};
+                    return !options.language || options.language === currentLanguage;
+                });
+                renderCart();
+            } catch (err) {
+                console.error('Failed to load cart:', err);
+                cartContainer.innerHTML = `<div class="text-center py-8 text-red-500">${currentLanguage === 'ko' ? '장바구니를 불러오는데 실패했습니다.' : 'Failed to load your cart.'}</div>`;
+            }
+        }
+
+        function autofillShippingAddress() {
+            
+            const savedAddress = localStorage.getItem('saved_shipping_address');
+            if (savedAddress) {
+                try {
+                    const address = JSON.parse(savedAddress);
+                    document.getElementById('postcode').value = address.postcode || '';
+                    document.getElementById('address').value = address.address || '';
+                    document.getElementById('detailAddress').value = address.detailAddress || '';
+                    document.getElementById('extraAddress').value = address.extraAddress || '';
+                } catch (e) {
+                    console.warn('Failed to parse saved address:', e);
+                }
+            }
+
+            if (!currentUser) return;
+
+            
+            const receiverInput = shippingForm.querySelector('input[name="receiver"]');
+            const phoneInput = shippingForm.querySelector('input[name="phone"]');
+
+            if (receiverInput && !receiverInput.value && currentUser.name) {
+                receiverInput.value = currentUser.name;
+            }
+
+            if (phoneInput && !phoneInput.value && currentUser.phone) {
+                phoneInput.value = currentUser.phone;
+            }
+        }
+
+        
+        function loadMemberInfo() {
+            if (!currentUser) {
+                showToast('로그인이 필요합니다.', true);
+                return;
+            }
+
+            const receiverInput = shippingForm.querySelector('input[name="receiver"]');
+            const phoneInput = shippingForm.querySelector('input[name="phone"]');
+            const postcodeInput = document.getElementById('postcode');
+            const addressInput = document.getElementById('address');
+            const detailAddressInput = document.getElementById('detailAddress');
+            const extraAddressInput = document.getElementById('extraAddress');
+
+            if (currentUser.name) receiverInput.value = currentUser.name;
+            if (currentUser.phone) phoneInput.value = currentUser.phone;
+
+            
+            if (currentUser.postcode) postcodeInput.value = currentUser.postcode;
+            if (currentUser.address) addressInput.value = currentUser.address;
+            if (currentUser.detailAddress) detailAddressInput.value = currentUser.detailAddress;
+            if (currentUser.extraAddress) extraAddressInput.value = currentUser.extraAddress;
+
+            showToast('회원 정보를 불러왔습니다.');
+        }
+
+        if (loadMemberInfoBtn) {
+            loadMemberInfoBtn.addEventListener('click', loadMemberInfo);
+        }
+
+        function renderCart() {
+            if (cartItems.length === 0) {
+                cartContainer.innerHTML = `<div class="text-center py-8 text-gray-500">${currentLanguage === 'ko' ? '장바구니가 비어있습니다.' : 'Your cart is empty.'}</div>`;
+                totalAmount = 0;
+                updateTotal();
+                return;
+            }
+
+            let html = '';
+            let total = 0;
+
+            cartItems.forEach(item => {
+                const productName = item.name || '상품';
+                if (!productName) {
+                    console.warn('Product info missing for item:', item);
+                    return;
+                }
+
+                const price = item.price || 0;
+                const qty = item.quantity || 1;
+                const subtotal = price * qty;
+                total += subtotal;
+
+                const imageUrl = item.image || 'https://via.placeholder.com/80';
+                const productLink = item.productLink || null;
+
+                html += `
                 <div class="flex gap-4 py-4">
-                    ${o?`<a href="${o}" class="flex-shrink-0"><img src="${c}" alt="${s}" class="w-20 h-20 object-cover rounded-lg bg-gray-100 hover:opacity-80 transition-opacity cursor-pointer"></a>`:`<img src="${c}" alt="${s}" class="w-20 h-20 object-cover rounded-lg bg-gray-100 flex-shrink-0">`}
+                    ${productLink
+                        ? `<a href="${productLink}" class="flex-shrink-0"><img src="${imageUrl}" alt="${productName}" class="w-20 h-20 object-cover rounded-lg bg-gray-100 hover:opacity-80 transition-opacity cursor-pointer"></a>`
+                        : `<img src="${imageUrl}" alt="${productName}" class="w-20 h-20 object-cover rounded-lg bg-gray-100 flex-shrink-0">`
+                    }
                     <div class="flex-1 min-w-0">
-                        <h3 class="font-medium text-gray-900 truncate">${o?`<a href="${o}" class="hover:text-blue-600 hover:underline transition-colors">${s}</a>`:s}</h3>
-                        <p class="text-sm text-gray-500 mt-1">${r==="ko"?`수량: ${i}개`:`Qty: ${i}`}</p>
-                        <p class="font-bold text-gray-900 mt-2">${n.formattedPrice||m(a)}</p>
+                        <h3 class="font-medium text-gray-900 truncate">${productLink
+                        ? `<a href="${productLink}" class="hover:text-blue-600 hover:underline transition-colors">${productName}</a>`
+                        : productName
+                    }</h3>
+                        <p class="text-sm text-gray-500 mt-1">${currentLanguage === 'ko' ? `수량: ${qty}개` : `Qty: ${qty}`}</p>
+                        <p class="font-bold text-gray-900 mt-2">${item.formattedPrice || formatPrice(subtotal)}</p>
                     </div >
                 </div >
-                    `}),l.innerHTML=e,i=t,g()}function g(){_.textContent=m(i),s.disabled=i===0}s.addEventListener("click",async()=>{if(!window.ShopConfig.paymentsEnabled||typeof PortOne=="undefined"){t("결제 설정이 완료되지 않았습니다.",!0);return}const c=new FormData(a),l={receiver:c.get("receiver"),phone:c.get("phone"),postcode:c.get("postcode"),address:c.get("address"),detailAddress:c.get("detailAddress"),extraAddress:c.get("extraAddress"),deliveryNote:c.get("deliveryNote")};if(!l.receiver||!l.phone||!l.postcode||!l.address){t("배송지 정보를 모두 입력해주세요.",!0),window.scrollTo({top:0,behavior:"smooth"});return}if(n.length===0){t("주문할 상품이 없습니다.",!0);return}const h=document.querySelector('input[name="payment-method"]:checked');if(!h){t("결제 수단을 선택해주세요.",!0);return}const d=h.value,r={};if(d==="inicis"){const e=document.getElementById("inicis-name").value.trim(),n=document.getElementById("inicis-email").value.trim(),s=document.getElementById("inicis-phone").value.trim();if(!e)return t("결제자 이름을 입력해주세요.",!0);if(!n)return t("결제자 이메일을 입력해주세요.",!0);if(!s)return t("결제자 휴대폰 번호를 입력해주세요.",!0);r.fullName=e,r.email=n,r.phoneNumber=s}else if(d==="korean_payment"){const e=document.getElementById("korean-name").value.trim(),n=document.getElementById("korean-email").value.trim(),s=document.getElementById("korean-phone").value.trim();if(!e)return t("결제자 이름을 입력해주세요.",!0);if(!n)return t("결제자 이메일을 입력해주세요.",!0);if(!s)return t("결제자 휴대폰 번호를 입력해주세요.",!0);r.fullName=e,r.email=n,r.phoneNumber=s}try{for(const t of n){const s=t.product_id;if(!s)continue;const e=await o.collection("products").getOne(s),i=parseInt(e.stock)||0,a=parseInt(t.quantity)||1,r=e.title||e.name||"상품";if(i<a){alert(`[${r}]
-재고가 부족하여 주문할 수 없습니다.
-(현재 재고: ${i}개)
+                    `;
+            });
 
-담당자에게 문의해주세요.`);return}}}catch(e){console.error("Stock validation failed:",e),alert("상품 재고 정보를 확인할 수 없습니다. 다시 시도해주세요.");return}s.disabled=!0,s.textContent="처리중...";try{const s=`ord${crypto.randomUUID().replace(/-/g,"").substring(0,29)}`,h=window.ShopConfig.channels[d];let a="CARD";d==="kakaopay"&&(a="EASY_PAY");const m=n.map(e=>e.name||"상품").join(", "),f={storeId:window.ShopConfig.storeId,channelKey:h,paymentId:s,orderName:m,totalAmount:i,currency:u,payMethod:a,customer:r,redirectUrl:window.location.origin+"/payment/complete"},t=await PortOne.requestPayment(f);if(t.code!=null)throw new Error(t.message);const c={payment_id:s,total_amount:i,status:"paid",items:n.map(e=>({product_id:e.product_id,qty:e.quantity,price:e.price,name:e.name||"상품",image:e.image||""})),buyer_details:{...t,shipping_info:l,customer:r}};e&&(c.user=e.id),await o.collection("orders").create(c),console.log("Updating inventory...");for(const e of n)try{const t=e.product_id;if(!t)continue;const n=await o.collection("products").getOne(t),s=parseInt(n.stock)||0,a=parseInt(e.quantity)||1,i=Math.max(0,s-a);await o.collection("products").update(t,{stock:i}),console.log(`Updated stock for ${n.name}: ${s} -> ${i}`)}catch(t){console.error("Failed to update stock for item:",e,t)}for(const e of n)await o.collection("cart_items").delete(e.id);alert("결제가 완료되었습니다!"),window.location.href="/"}catch(e){console.error("Payment failed:",e),t(`결제 실패: ${e.message}`,!0),s.disabled=!1,s.textContent="결제하기"}}),document.getElementById("save-address").addEventListener("change",function(e){if(e.target.checked){const e=new FormData(a),t={postcode:e.get("postcode"),address:e.get("address"),detailAddress:e.get("detailAddress"),extraAddress:e.get("extraAddress")};localStorage.setItem("saved_shipping_address",JSON.stringify(t))}else localStorage.removeItem("saved_shipping_address")}),console.log("Initializing checkout page..."),v(),b(),j(),h("inicis-email","inicis-email-suggestion"),h("korean-email","korean-email-suggestion")})</script></body></html>
+            cartContainer.innerHTML = html;
+            totalAmount = total;
+            updateTotal();
+        }
+
+        function updateTotal() {
+            totalEl.textContent = formatPrice(totalAmount);
+            payBtn.disabled = totalAmount === 0;
+        }
+
+        payBtn.addEventListener('click', async () => {
+            if (!window.ShopConfig.paymentsEnabled || typeof PortOne === 'undefined') {
+                showToast('결제 설정이 완료되지 않았습니다.', true);
+                return;
+            }
+            const formData = new FormData(shippingForm);
+            const shippingInfo = {
+                receiver: formData.get('receiver'),
+                phone: formData.get('phone'),
+                postcode: formData.get('postcode'),
+                address: formData.get('address'),
+                detailAddress: formData.get('detailAddress'),
+                extraAddress: formData.get('extraAddress'),
+                deliveryNote: formData.get('deliveryNote'),
+            };
+
+            if (!shippingInfo.receiver || !shippingInfo.phone || !shippingInfo.postcode || !shippingInfo.address) {
+                showToast('배송지 정보를 모두 입력해주세요.', true);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                return;
+            }
+
+            if (cartItems.length === 0) {
+                showToast('주문할 상품이 없습니다.', true);
+                return;
+            }
+
+            const paymentMethodEl = document.querySelector('input[name="payment-method"]:checked');
+            if (!paymentMethodEl) {
+                showToast('결제 수단을 선택해주세요.', true);
+                return;
+            }
+
+            const selectedChannel = paymentMethodEl.value;
+            const customerData = {};
+
+            if (selectedChannel === 'inicis') {
+                const name = document.getElementById('inicis-name').value.trim();
+                const email = document.getElementById('inicis-email').value.trim();
+                const phone = document.getElementById('inicis-phone').value.trim();
+
+                if (!name) return showToast('결제자 이름을 입력해주세요.', true);
+                if (!email) return showToast('결제자 이메일을 입력해주세요.', true);
+                if (!phone) return showToast('결제자 휴대폰 번호를 입력해주세요.', true);
+
+                customerData.fullName = name;
+                customerData.email = email;
+                customerData.phoneNumber = phone;
+            } else if (selectedChannel === 'korean_payment') {
+                const name = document.getElementById('korean-name').value.trim();
+                const email = document.getElementById('korean-email').value.trim();
+                const phone = document.getElementById('korean-phone').value.trim();
+
+                if (!name) return showToast('결제자 이름을 입력해주세요.', true);
+                if (!email) return showToast('결제자 이메일을 입력해주세요.', true);
+                if (!phone) return showToast('결제자 휴대폰 번호를 입력해주세요.', true);
+
+                customerData.fullName = name;
+                customerData.email = email;
+                customerData.phoneNumber = phone;
+            }
+
+
+
+            
+            try {
+                for (const item of cartItems) {
+                    const productId = item.product_id;
+                    if (!productId) continue;
+
+                    const product = await pb.collection('products').getOne(productId);
+                    const currentStock = parseInt(product.stock) || 0;
+                    const qty = parseInt(item.quantity) || 1;
+                    const productName = product.title || product.name || '상품';
+
+                    if (currentStock < qty) {
+                        alert(`[${productName}]\n재고가 부족하여 주문할 수 없습니다.\n(현재 재고: ${currentStock}개)\n\n담당자에게 문의해주세요.`);
+                        return; 
+                    }
+                }
+            } catch (err) {
+                console.error('Stock validation failed:', err);
+                alert('상품 재고 정보를 확인할 수 없습니다. 다시 시도해주세요.');
+                return;
+            }
+
+            payBtn.disabled = true;
+            payBtn.textContent = '처리중...';
+
+            try {
+                const paymentId = `ord${crypto.randomUUID().replace(/-/g, '').substring(0, 29)}`;
+                const channelKey = window.ShopConfig.channels[selectedChannel];
+
+                let payMethod = "CARD";
+                if (selectedChannel === 'kakaopay') payMethod = "EASY_PAY";
+
+                
+                const orderName = cartItems.map(i => i.name || '상품').join(', ');
+
+                const requestData = {
+                    storeId: window.ShopConfig.storeId,
+                    channelKey: channelKey,
+                    paymentId: paymentId,
+                    orderName: orderName,
+                    totalAmount: totalAmount,
+                    currency: currentCurrency,
+                    payMethod: payMethod,
+                    customer: customerData,
+                    redirectUrl: window.location.origin + "/payment/complete",
+                };
+
+                const response = await PortOne.requestPayment(requestData);
+
+                if (response.code != null) {
+                    throw new Error(response.message);
+                }
+
+                const orderData = {
+                    payment_id: paymentId,
+                    total_amount: totalAmount,
+                    status: 'paid',
+                    items: cartItems.map(item => ({
+                        product_id: item.product_id,
+                        qty: item.quantity,
+                        price: item.price,
+                        name: item.name || '상품',
+                        image: item.image || ''
+                    })),
+                    buyer_details: {
+                        ...response,
+                        shipping_info: shippingInfo,
+                        customer: customerData 
+                    }
+                };
+
+                if (currentUser) {
+                    orderData.user = currentUser.id;
+                    
+                }
+
+                await pb.collection('orders').create(orderData);
+
+                
+                console.log('Updating inventory...');
+                for (const item of cartItems) {
+                    try {
+                        
+                        const productId = item.product_id;
+                        if (!productId) continue;
+
+                        const product = await pb.collection('products').getOne(productId);
+
+                        
+                        const currentStock = parseInt(product.stock) || 0;
+                        const qty = parseInt(item.quantity) || 1;
+                        const newStock = Math.max(0, currentStock - qty); 
+
+                        
+                        await pb.collection('products').update(productId, {
+                            stock: newStock
+                        });
+                        console.log(`Updated stock for ${product.name}: ${currentStock} -> ${newStock}`);
+
+                    } catch (err) {
+                        console.error('Failed to update stock for item:', item, err);
+                        
+                    }
+                }
+
+                for (const item of cartItems) {
+                    await pb.collection('cart_items').delete(item.id);
+                }
+
+                alert('결제가 완료되었습니다!');
+                window.location.href = '/';
+
+            } catch (err) {
+                console.error('Payment failed:', err);
+                showToast(`결제 실패: ${err.message}`, true);
+                payBtn.disabled = false;
+                payBtn.textContent = '결제하기';
+            }
+        });
+
+        
+        document.getElementById('save-address').addEventListener('change', function (e) {
+            if (e.target.checked) {
+                const formData = new FormData(shippingForm);
+                const addressData = {
+                    postcode: formData.get('postcode'),
+                    address: formData.get('address'),
+                    detailAddress: formData.get('detailAddress'),
+                    extraAddress: formData.get('extraAddress')
+                };
+                localStorage.setItem('saved_shipping_address', JSON.stringify(addressData));
+            } else {
+                localStorage.removeItem('saved_shipping_address');
+            }
+        });
+
+        console.log('Initializing checkout page...');
+        initPaymentMethods();
+        loadCart();
+        autofillShippingAddress();
+
+        
+        setupEmailAutocomplete('inicis-email', 'inicis-email-suggestion');
+        setupEmailAutocomplete('korean-email', 'korean-email-suggestion');
+    });
+</script>
+
+
+</body>
+
+</html>

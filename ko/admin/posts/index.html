@@ -1,24 +1,519 @@
-<!doctype html><html lang=ko><head><meta charset=utf-8><title>콘텐츠 관리</title><meta http-equiv=Content-Security-Policy content="default-src 'self' * 'unsafe-inline' 'unsafe-eval' data: blob:;"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><meta name=description content="스토어 블로그와 게시글을 관리합니다"><meta name=author content="Codex Boilerplate"><meta name=generator content="Hugo 0.152.2"><meta name=theme-name content="vex-hugo"><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Droid+Serif:400%7cJosefin+Sans:300,400,600,700"><link rel=stylesheet href=/plugins/bootstrap/bootstrap.min.css><link rel=stylesheet href=/plugins/themefisher-font/themefisher-font.min.css><link rel=stylesheet href=/plugins/slick/slick.min.css><link rel=stylesheet href=/scss/style.min.css media=screen><link rel=stylesheet href=/scss/cart-styles.min.css media=screen><link rel="shortcut icon" href=/images/favicon.png type=image/x-icon><link rel=icon href=/images/favicon.png type=image/x-icon><meta property="og:url" content="/ko/admin/posts/"><meta property="og:site_name" content="휴고 커머스 보일러플레이트"><meta property="og:title" content="콘텐츠 관리"><meta property="og:description" content="스토어 블로그와 게시글을 관리합니다"><meta property="og:locale" content="ko"><meta property="og:type" content="article"><meta property="article:section" content="admin"><script>window.SiteConfig={pocketbaseUrl:"http://127.0.0.1:8090"}</script><script>window.ShopConfig={paymentsEnabled:!1,storeId:"",currentLanguage:"ko",currencyCode:"KRW",currencySymbol:"₩",channels:{inicis:"",kakaopay:"",korean_payment:""},koreanPaymentPassKey:""}</script><script src=/js/pocketbase.umd.js></script><script src=/js/mustache.min.js></script></head><body id=body><header class="sticky-top bg-white"><div class=container><nav class="navbar navbar-expand-lg navbar-light"><a class=navbar-brand href=/ko/ style=width:100px><div class=img-fluid><img src=/images/logo.png alt="휴고 커머스 보일러플레이트" class=img-fluid></div></a><button class=cart id=cart-trigger onclick=Cart.toggleDrawer()>
-<i class=tf-ion-android-cart></i>
-</button>
-<button class="navbar-toggler border-0" type=button data-toggle=collapse data-target=#navigation aria-controls=navigation aria-expanded=false aria-label="Toggle navigation">
-<span class=navbar-toggler-icon></span></button><div class="collapse navbar-collapse text-center" id=navigation><ul class="navbar-nav ml-auto"><li class=nav-item><a class=nav-link href=/ko/>홈</a></li><li class=nav-item><a class=nav-link href=/ko/products>제품</a></li><li class=nav-item><a class=nav-link href=/ko/blog>블로그</a></li><li class=nav-item><a class=nav-link href=/ko/#testimonial>리뷰</a></li><li class=nav-item><a class=nav-link href=/ko/contact>연락처</a></li><li class=nav-item id=auth-login-link><a class=nav-link href=/ko/login>로그인</a></li><li class=nav-item id=auth-signup-link><a class=nav-link href=/ko/login#signup>회원가입</a></li><li class=nav-item id=auth-logout-link style=display:none><a class=nav-link href=# onclick="return Auth.logout(),!1">로그아웃</a></li><li class=nav-item id=auth-profile-link style=display:none><a class=nav-link href=/ko/profile style=padding-top:0;padding-bottom:0><div class="d-flex align-items-center"><img id=nav-avatar-img src alt=Avatar class="rounded-circle mr-2" style=width:30px;height:30px;object-fit:cover;display:none>
-<i id=nav-avatar-icon class=tf-ion-android-person style=font-size:24px;display:none></i></div></a></li></ul></div></nav></div></header><section class=section><div class=container><div class=row><div class=col-12><div class=admin-nav-container><div class=admin-nav-inner><div class=admin-nav-left><span class=admin-nav-brand>STORE ADMIN</span></div><div class=admin-nav-center><a href=/ko/admin/products class=admin-nav-link>상품 관리</a>
-<a href=/ko/admin/orders class=admin-nav-link>주문 관리</a>
-<a href=/ko/admin/posts class="admin-nav-link active">콘텐츠 관리</a></div><div class=admin-nav-right><button id=admin-logout-btn class=admin-nav-logout>로그아웃</button></div></div></div><style>.admin-nav-container{border-bottom:1px solid #eee;background:#fff;margin-bottom:2rem;padding:.75rem 0}.admin-nav-inner{max-width:1140px;margin:0 auto;padding:0 15px;display:flex;align-items:center;justify-content:space-between}.admin-nav-brand{font-weight:700;font-size:.9rem;letter-spacing:.1em;color:#111}.admin-nav-center{display:flex;gap:2rem}.admin-nav-link{color:#666;font-size:.875rem;font-weight:500;text-decoration:none;padding-bottom:4px;border-bottom:2px solid transparent;transition:all .2s ease}.admin-nav-link:hover{color:#111;text-decoration:none}.admin-nav-link.active{color:#111;border-bottom-color:#111}.admin-nav-logout{background:0 0;border:none;color:#999;font-size:.875rem;font-weight:500;cursor:pointer;padding:0;transition:color .2s}.admin-nav-logout:hover{color:#ff4757}@media(max-width:576px){.admin-nav-inner{flex-direction:column;gap:1rem;text-align:center}.admin-nav-center{gap:1rem;flex-wrap:wrap;justify-content:center}}</style><div class="d-flex justify-content-between align-items-center mb-3"><h2>콘텐츠 관리</h2><div><button id=add-post-btn class="btn btn-main" onclick=AdminPosts.openAddModal()>
-<i class=tf-ion-edit></i> 게시글 작성</button></div></div><div class="alert alert-info mb-4"><strong>운영 안내:</strong> 게시글을 작성하거나 수정한 뒤에는 <code>npm run sync</code>를 실행해 Hugo 콘텐츠와 정적 결과물을 갱신하세요.</div><div id=admin-auth-check class="alert alert-warning" style=display:none>관리자 권한이 필요합니다. <a href=/ko/admin/login>관리자 로그인 페이지로 이동</a>.</div><div id=admin-post-list class=table-responsive><table class="table table-hover"><thead><tr><th style=width:80px>이미지</th><th>제목</th><th>상태</th><th>작성일</th><th>작업</th></tr></thead><tbody id=post-table-body><tr class=text-center><td colspan=5>로딩 중...</td></tr></tbody></table><div id=loading-spinner class="text-center py-4"><div class=spinner-border role=status><span class=sr-only>로딩 중...</span></div></div></div></div></div></div></section><div class="modal fade" id=postModal tabindex=-1 role=dialog aria-hidden=true><div class="modal-dialog modal-lg" role=document><div class=modal-content><div class=modal-header><h5 class=modal-title id=postModalLabel>게시글 작성</h5><button type=button class=close data-dismiss=modal aria-label=닫기>
-<span aria-hidden=true>&#215;</span></button></div><div class=modal-body><form id=post-form><input type=hidden id=post-id><div class=form-group><label for=post-title>제목</label>
-<input type=text class=form-control id=post-title required></div><div class=form-group><label for=post-slug>슬러그 (URL)</label>
-<input type=text class=form-control id=post-slug required placeholder="자동 생성되며 필요 시 수정할 수 있습니다">
-<small class="form-text text-muted">제목을 입력하면 기본 슬러그가 자동 생성됩니다.</small></div><div class=row><div class=col-md-6><div class=form-group><label for=post-tags>태그 (쉼표로 구분)</label>
-<input type=text class=form-control id=post-tags placeholder="예: update, launch, guide"></div></div><div class=col-md-6><div class=form-group><label for=post-categories>카테고리 (쉼표로 구분)</label>
-<input type=text class=form-control id=post-categories placeholder="예: News, Campaign"></div></div></div><div class=form-group><label for=post-content>내용 (Markdown)</label>
-<textarea class="form-control font-monospace" id=post-content rows=15 style=font-family:consolas,monaco,monospace;font-size:14px;line-height:1.6 placeholder="# 여기에 마크다운 콘텐츠를 작성하세요"></textarea></div><div class=form-group><label for=post-image>대표 이미지</label><div class=custom-file><input type=file class=custom-file-input id=post-image accept=image/* onchange=AdminPosts.handleImageSelect(this)>
-<label class=custom-file-label for=post-image>이미지 선택...</label></div><div id=post-image-preview class="mt-2 p-2 border rounded bg-light text-center" style=display:none><img src alt=Preview style=max-height:200px;max-width:100%>
-<button type=button class="btn btn-sm btn-danger mt-2 d-block mx-auto" onclick=AdminPosts.clearImage()>이미지 삭제</button></div></div><div class="form-check mb-3"><input type=checkbox class=form-check-input id=post-published checked>
-<label class=form-check-label for=post-published>공개 상태로 저장</label></div></form></div><div class=modal-footer><button type=button class="btn btn-secondary" data-dismiss=modal>닫기</button>
-<button type=button class="btn btn-main" onclick=AdminPosts.savePost()>저장</button></div></div></div></div><script src=https://unpkg.com/htmx.org@1.9.10></script><script src=/js/admin-auth.js></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css><script src=https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.js></script><style>.EasyMDEContainer{z-index:1000}.editor-toolbar{border-radius:4px 4px 0 0}.CodeMirror{border-radius:0 0 4px 4px;min-height:400px}</style><script src=/js/admin-posts.js></script><footer><div class="container text-center"><div class=row><div class=col-md-12><div class=block><a href=/ko/ class="mb-4 d-inline-block" style=width:100px><div class=img-fluid><img src=/images/logo.png alt="휴고 커머스 보일러플레이트" class=img-fluid></div></a><ul class="list-inline footer-menu"><li class=list-inline-item><a href=/ko/blog>블로그</a></li><li class=list-inline-item><a href=/ko/contact>연락처</a></li><li class=list-inline-item><a href=/ko/terms-conditions>이용 약관</a></li><li class=list-inline-item><a href=/ko/privacy-policy>개인정보 처리방침</a></li></ul><p class=copyright-text>Copyright © 2026 Your Store. Built with Hugo Commerce Boilerplate.</p></div></div></div></div></footer><script src=/plugins/jquery/jquery.js></script><script src=/plugins/bootstrap/bootstrap.min.js></script><script src=/plugins/slick/slick.min.js></script><script src=/js/script.js></script><script src="/js/admin-core.2d5e86d3ab5fae3bd00f4a42e85739cd16be8aab885715a685cb28b8df5e1a4d.js?v=1773733503"></script><div id=cart-overlay onclick=Cart.toggleDrawer()></div><div id=cart-drawer><div class=cart-header><div class="d-flex align-items-center"><h3>🛒 장바구니</h3><span class=cart-count id=cart-item-count>0</span></div><button onclick=Cart.toggleDrawer() class=close-btn aria-label="Close cart">
-×</button></div><div id=cart-items-container><div class=cart-loading><div class=spinner></div></div></div><script id=cart-template type=x-tmpl-mustache>
+<!DOCTYPE html>
+<html lang="ko"><head>
+  <meta charset="utf-8">
+  <title>콘텐츠 관리</title>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' * 'unsafe-inline' 'unsafe-eval' data: blob:;">
+
+  <!-- mobile responsive meta -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description"
+    content="스토어 블로그와 게시글을 관리합니다">
+  
+  <meta name="author" content="Codex Boilerplate">
+  <meta name="generator" content="Hugo 0.152.2">
+
+  <meta name="theme-name" content="vex-hugo" />
+
+  <!-- plugins -->
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid&#43;Serif:400%7cJosefin&#43;Sans:300,400,600,700">
+  
+  <link rel="stylesheet" href="/plugins/bootstrap/bootstrap.min.css">
+  
+  <link rel="stylesheet" href="/plugins/themefisher-font/themefisher-font.min.css">
+  
+  <link rel="stylesheet" href="/plugins/slick/slick.min.css">
+  
+
+  <!-- Main Stylesheet -->
+  
+  <link rel="stylesheet" href="/scss/style.min.css" media="screen">
+
+  <!-- Cart Styles -->
+  
+  <link rel="stylesheet" href="/scss/cart-styles.min.css" media="screen">
+
+  <!--Favicon-->
+  <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon">
+  <link rel="icon" href="/images/favicon.png" type="image/x-icon">
+
+  
+  <meta property="og:url" content="/ko/admin/posts/">
+  <meta property="og:site_name" content="휴고 커머스 보일러플레이트">
+  <meta property="og:title" content="콘텐츠 관리">
+  <meta property="og:description" content="스토어 블로그와 게시글을 관리합니다">
+  <meta property="og:locale" content="ko">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="admin">
+
+  
+
+  
+  
+  
+  
+  
+  
+  
+
+  
+
+  <script>
+    window.SiteConfig = {
+      pocketbaseUrl: "http:\/\/127.0.0.1:8090"
+    };
+  </script>
+
+  <script>
+    window.ShopConfig = {
+      paymentsEnabled: false,
+      storeId: "",
+      currentLanguage: "ko",
+      currencyCode: "KRW",
+      currencySymbol: "₩",
+      channels: {
+        "inicis": "",
+        "kakaopay": "",
+        "korean_payment": ""
+      },
+      koreanPaymentPassKey: ""
+    };
+  </script>
+
+  
+  <script src="/js/pocketbase.umd.js"></script>
+
+  
+  <script src="/js/mustache.min.js"></script>
+
+</head>
+<body id="body">
+<header class="sticky-top bg-white">
+  <div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light">
+      <a class="navbar-brand" href="/ko/" style="width: 100px;">
+        
+        
+<div class="img-fluid">
+    
+    
+        
+        
+        <img src="/images/logo.png" alt="휴고 커머스 보일러플레이트" class="img-fluid">
+        
+    
+</div>
+
+        
+      </a>
+
+      
+      <button class="cart" id="cart-trigger" onclick="Cart.toggleDrawer()">
+        <i class="tf-ion-android-cart"></i>
+      </button>
+
+      <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#navigation"
+        aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse text-center" id="navigation">
+        <ul class="navbar-nav ml-auto">
+          
+          <li class="nav-item">
+            <a class="nav-link"
+              href="/ko/">홈</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="nav-link"
+              href="/ko/products">제품</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="nav-link"
+              href="/ko/blog">블로그</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="nav-link"
+              href="/ko/#testimonial">리뷰</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="nav-link"
+              href="/ko/contact">연락처</a>
+          </li>
+          
+          
+
+
+
+<li class="nav-item" id="auth-login-link">
+    <a class="nav-link" href="/ko/login">로그인</a>
+</li>
+<li class="nav-item" id="auth-signup-link">
+    <a class="nav-link" href="/ko/login#signup">회원가입</a>
+</li>
+<li class="nav-item" id="auth-logout-link" style="display: none;">
+    <a class="nav-link" href="#" onclick="Auth.logout(); return false;">로그아웃</a>
+</li>
+<li class="nav-item" id="auth-profile-link" style="display: none;">
+    <a class="nav-link" href="/ko/profile" style="padding-top: 0; padding-bottom: 0;">
+        <div class="d-flex align-items-center">
+            <img id="nav-avatar-img" src="" alt="Avatar" class="rounded-circle mr-2"
+                style="width: 30px; height: 30px; object-fit: cover; display: none;">
+            <i id="nav-avatar-icon" class="tf-ion-android-person" style="font-size: 24px; display: none;"></i>
+        </div>
+    </a>
+</li>
+        </ul>
+        
+        
+      </div>
+    </nav>
+  </div>
+</header>
+
+
+<section class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="admin-nav-container">
+    <div class="admin-nav-inner">
+        <div class="admin-nav-left">
+            <span class="admin-nav-brand">STORE ADMIN</span>
+        </div>
+        <div class="admin-nav-center">
+            <a href="/ko/admin/products" class="admin-nav-link ">상품 관리</a>
+            <a href="/ko/admin/orders" class="admin-nav-link ">주문 관리</a>
+            <a href="/ko/admin/posts" class="admin-nav-link active">콘텐츠 관리</a>
+        </div>
+        <div class="admin-nav-right">
+            <button id="admin-logout-btn" class="admin-nav-logout">로그아웃</button>
+        </div>
+    </div>
+</div>
+
+<style>
+    .admin-nav-container {
+        border-bottom: 1px solid #eee;
+        background: #fff;
+        margin-bottom: 2rem;
+        padding: 0.75rem 0;
+    }
+
+    .admin-nav-inner {
+        max-width: 1140px;
+        margin: 0 auto;
+        padding: 0 15px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .admin-nav-brand {
+        font-weight: 700;
+        font-size: 0.9rem;
+        letter-spacing: 0.1em;
+        color: #111;
+    }
+
+    .admin-nav-center {
+        display: flex;
+        gap: 2rem;
+    }
+
+    .admin-nav-link {
+        color: #666;
+        font-size: 0.875rem;
+        font-weight: 500;
+        text-decoration: none;
+        padding-bottom: 4px;
+        border-bottom: 2px solid transparent;
+        transition: all 0.2s ease;
+    }
+
+    .admin-nav-link:hover {
+        color: #111;
+        text-decoration: none;
+    }
+
+    .admin-nav-link.active {
+        color: #111;
+        border-bottom-color: #111;
+    }
+
+    .admin-nav-logout {
+        background: none;
+        border: none;
+        color: #999;
+        font-size: 0.875rem;
+        font-weight: 500;
+        cursor: pointer;
+        padding: 0;
+        transition: color 0.2s;
+    }
+
+    .admin-nav-logout:hover {
+        color: #ff4757;
+    }
+
+    @media (max-width: 576px) {
+        .admin-nav-inner {
+            flex-direction: column;
+            gap: 1rem;
+            text-align: center;
+        }
+
+        .admin-nav-center {
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+    }
+</style>
+
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h2>콘텐츠 관리</h2>
+                    <div>
+                        <button id="add-post-btn" class="btn btn-main" onclick="AdminPosts.openAddModal()">
+                            <i class="tf-ion-edit"></i> 게시글 작성
+                        </button>
+                    </div>
+                </div>
+
+                <div class="alert alert-info mb-4">
+                    <strong>운영 안내:</strong> 게시글을 작성하거나 수정한 뒤에는 <code>npm run sync</code>를 실행해 Hugo 콘텐츠와 정적 결과물을 갱신하세요.
+                </div>
+
+                <div id="admin-auth-check" class="alert alert-warning" style="display: none;">
+                    관리자 권한이 필요합니다. <a href="/ko/admin/login">관리자 로그인 페이지로 이동</a>.
+                </div>
+
+                <div id="admin-post-list" class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th style="width: 80px;">이미지</th>
+                                <th>제목</th>
+                                <th>상태</th>
+                                <th>작성일</th>
+                                <th>작업</th>
+                            </tr>
+                        </thead>
+                        <tbody id="post-table-body">
+                            <tr class="text-center">
+                                <td colspan="5">로딩 중...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div id="loading-spinner" class="text-center py-4">
+                        <div class="spinner-border" role="status">
+                            <span class="sr-only">로딩 중...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="modal fade" id="postModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="postModalLabel">게시글 작성</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="닫기">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="post-form">
+                    <input type="hidden" id="post-id">
+
+                    <div class="form-group">
+                        <label for="post-title">제목</label>
+                        <input type="text" class="form-control" id="post-title" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="post-slug">슬러그 (URL)</label>
+                        <input type="text" class="form-control" id="post-slug" required placeholder="자동 생성되며 필요 시 수정할 수 있습니다">
+                        <small class="form-text text-muted">제목을 입력하면 기본 슬러그가 자동 생성됩니다.</small>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="post-tags">태그 (쉼표로 구분)</label>
+                                <input type="text" class="form-control" id="post-tags" placeholder="예: update, launch, guide">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="post-categories">카테고리 (쉼표로 구분)</label>
+                                <input type="text" class="form-control" id="post-categories"
+                                    placeholder="예: News, Campaign">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="post-content">내용 (Markdown)</label>
+                        <textarea class="form-control font-monospace" id="post-content" rows="15"
+                            style="font-family: 'Consolas', 'Monaco', monospace; font-size: 14px; line-height: 1.6;"
+                            placeholder="# 여기에 마크다운 콘텐츠를 작성하세요"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="post-image">대표 이미지</label>
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="post-image" accept="image/*"
+                                onchange="AdminPosts.handleImageSelect(this)">
+                            <label class="custom-file-label" for="post-image">이미지 선택...</label>
+                        </div>
+                        <div id="post-image-preview" class="mt-2 p-2 border rounded bg-light text-center"
+                            style="display: none;">
+                            <img src="" alt="Preview" style="max-height: 200px; max-width: 100%;">
+                            <button type="button" class="btn btn-sm btn-danger mt-2 d-block mx-auto"
+                                onclick="AdminPosts.clearImage()">이미지 삭제</button>
+                        </div>
+                    </div>
+
+                    <div class="form-check mb-3">
+                        <input type="checkbox" class="form-check-input" id="post-published" checked>
+                        <label class="form-check-label" for="post-published">공개 상태로 저장</label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                <button type="button" class="btn btn-main" onclick="AdminPosts.savePost()">저장</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://unpkg.com/htmx.org@1.9.10"></script>
+
+
+<script src="/js/admin-auth.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css">
+<script src="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.js"></script>
+<style>
+    .EasyMDEContainer {
+        z-index: 1000;
+    }
+
+    .editor-toolbar {
+        border-radius: 4px 4px 0 0;
+    }
+
+    .CodeMirror {
+        border-radius: 0 0 4px 4px;
+        min-height: 400px;
+    }
+</style>
+
+
+<script src="/js/admin-posts.js"></script>
+
+<footer>
+  <div class="container text-center">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="block">
+          <a href="/ko/" class="mb-4 d-inline-block"
+            style="width: 100px;">
+            
+            
+<div class="img-fluid">
+    
+    
+        
+        
+        <img src="/images/logo.png" alt="휴고 커머스 보일러플레이트" class="img-fluid">
+        
+    
+</div>
+
+            
+          </a>
+          <ul class="list-inline footer-menu">
+            
+            <li class="list-inline-item">
+              <a href="/ko/blog">블로그</a>
+            </li>
+            
+            <li class="list-inline-item">
+              <a href="/ko/contact">연락처</a>
+            </li>
+            
+            <li class="list-inline-item">
+              <a href="/ko/terms-conditions">이용 약관</a>
+            </li>
+            
+            <li class="list-inline-item">
+              <a href="/ko/privacy-policy">개인정보 처리방침</a>
+            </li>
+            
+          </ul>
+          <p class="copyright-text">Copyright © 2026 Your Store. Built with Hugo Commerce Boilerplate.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+
+
+
+<script src="/plugins/jquery/jquery.js"></script>
+
+<script src="/plugins/bootstrap/bootstrap.min.js"></script>
+
+<script src="/plugins/slick/slick.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+
+<script src="/js/admin-core.2d5e86d3ab5fae3bd00f4a42e85739cd16be8aab885715a685cb28b8df5e1a4d.js?v=1773883762"></script>
+
+
+<div id="cart-overlay" onclick="Cart.toggleDrawer()"></div>
+
+
+<div id="cart-drawer">
+  <div class="cart-header">
+    <div class="d-flex align-items-center">
+      <h3>🛒 장바구니</h3>
+      <span class="cart-count" id="cart-item-count">0</span>
+    </div>
+    <button onclick="Cart.toggleDrawer()" class="close-btn" aria-label="Close cart">
+      ×
+    </button>
+  </div>
+
+  <div id="cart-items-container">
+    <div class="cart-loading">
+      <div class="spinner"></div>
+    </div>
+  </div>
+
+  
+<script id="cart-template" type="x-tmpl-mustache">
     [[^items]]
     <div class="empty-cart">
       <div class="empty-icon">🛍️</div>
@@ -96,7 +591,34 @@
         </p>
     </div>
     [[/hasItems]]
-</script><div class=cart-footer style=display:none id=cart-footer><div class=cart-summary><div class=summary-row><span>소계</span>
-<span class=amount id=cart-subtotal>₩0</span></div><div class="summary-row total"><span>총액</span>
-<span class=amount id=cart-total>₩0</span></div></div><button onclick=Cart.checkout() class=checkout-btn id=checkout-btn>
-💳 주문하기</button></div></div><script>document.addEventListener("DOMContentLoaded",function(){window.ShopConfig&&window.Cart&&Cart.init(window.ShopConfig)})</script></body></html>
+</script>
+
+
+  <div class="cart-footer" style="display: none;" id="cart-footer">
+    <div class="cart-summary">
+      <div class="summary-row">
+        <span>소계</span>
+        <span class="amount" id="cart-subtotal">₩0</span>
+      </div>
+      <div class="summary-row total">
+        <span>총액</span>
+        <span class="amount" id="cart-total">₩0</span>
+      </div>
+    </div>
+
+    <button onclick="Cart.checkout()" class="checkout-btn" id="checkout-btn">
+      💳 주문하기
+    </button>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    if (window.ShopConfig && window.Cart) {
+      Cart.init(window.ShopConfig);
+    }
+  });
+</script>
+</body>
+
+</html>

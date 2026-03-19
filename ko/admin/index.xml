@@ -1,1 +1,39 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Admins on 휴고 커머스 보일러플레이트</title><link>/ko/admin/</link><description>Recent content in Admins on 휴고 커머스 보일러플레이트</description><generator>Hugo</generator><language>ko</language><atom:link href="/ko/admin/index.xml" rel="self" type="application/rss+xml"/><item><title>관리자 센터 로그인</title><link>/ko/admin/login/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>/ko/admin/login/</guid><description/></item><item><title>주문 관리</title><link>/ko/admin/orders/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>/ko/admin/orders/</guid><description/></item><item><title>카탈로그 관리</title><link>/ko/admin/products/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>/ko/admin/products/</guid><description/></item><item><title>콘텐츠 관리</title><link>/ko/admin/posts/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>/ko/admin/posts/</guid><description/></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Admins on 휴고 커머스 보일러플레이트</title>
+    <link>/ko/admin/</link>
+    <description>Recent content in Admins on 휴고 커머스 보일러플레이트</description>
+    <generator>Hugo</generator>
+    <language>ko</language>
+    <atom:link href="/ko/admin/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>관리자 센터 로그인</title>
+      <link>/ko/admin/login/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>/ko/admin/login/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>주문 관리</title>
+      <link>/ko/admin/orders/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>/ko/admin/orders/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>카탈로그 관리</title>
+      <link>/ko/admin/products/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>/ko/admin/products/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>콘텐츠 관리</title>
+      <link>/ko/admin/posts/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>/ko/admin/posts/</guid>
+      <description></description>
+    </item>
+  </channel>
+</rss>

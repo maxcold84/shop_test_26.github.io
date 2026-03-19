@@ -1,1 +1,11 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>최신 포스트 on 휴고 커머스 보일러플레이트</title><link>/ko/blog/</link><description>Recent content in 최신 포스트 on 휴고 커머스 보일러플레이트</description><generator>Hugo</generator><language>ko</language><atom:link href="/ko/blog/index.xml" rel="self" type="application/rss+xml"/></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>최신 포스트 on 휴고 커머스 보일러플레이트</title>
+    <link>/ko/blog/</link>
+    <description>Recent content in 최신 포스트 on 휴고 커머스 보일러플레이트</description>
+    <generator>Hugo</generator>
+    <language>ko</language>
+    <atom:link href="/ko/blog/index.xml" rel="self" type="application/rss+xml" />
+  </channel>
+</rss>

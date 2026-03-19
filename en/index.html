@@ -1,27 +1,868 @@
-<!doctype html><html lang=en><head><meta charset=utf-8><title>Hugo Commerce Boilerplate</title><meta http-equiv=Content-Security-Policy content="default-src 'self' * 'unsafe-inline' 'unsafe-eval' data: blob:;"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><meta name=description content="Starter storefront built with Hugo, PocketBase, and client-side commerce flows."><meta name=author content="Codex Boilerplate"><meta name=generator content="Hugo 0.152.2"><meta name=theme-name content="vex-hugo"><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Droid+Serif:400%7cJosefin+Sans:300,400,600,700"><link rel=stylesheet href=/plugins/bootstrap/bootstrap.min.css><link rel=stylesheet href=/plugins/themefisher-font/themefisher-font.min.css><link rel=stylesheet href=/plugins/slick/slick.min.css><link rel=stylesheet href=/scss/style.min.css media=screen><link rel=stylesheet href=/scss/cart-styles.min.css media=screen><link rel="shortcut icon" href=/images/favicon.png type=image/x-icon><link rel=icon href=/images/favicon.png type=image/x-icon><meta property="og:url" content="/en/"><meta property="og:site_name" content="Hugo Commerce Boilerplate"><meta property="og:title" content="Hugo Commerce Boilerplate"><meta property="og:description" content="Starter storefront built with Hugo, PocketBase, and client-side commerce flows."><meta property="og:locale" content="en"><meta property="og:type" content="website"><script>window.SiteConfig={pocketbaseUrl:"http://127.0.0.1:8090"}</script><script>window.ShopConfig={paymentsEnabled:!1,storeId:"",currentLanguage:"en",currencyCode:"USD",currencySymbol:"$",channels:{inicis:"",kakaopay:"",korean_payment:""},koreanPaymentPassKey:""}</script><script src=/js/pocketbase.umd.js></script><script src=/js/mustache.min.js></script></head><body id=body><header class="sticky-top bg-white"><div class=container><nav class="navbar navbar-expand-lg navbar-light"><a class=navbar-brand href=/en/ style=width:100px><div class=img-fluid><img src=/images/logo.png alt="Hugo Commerce Boilerplate" class=img-fluid></div></a><button class=cart id=cart-trigger onclick=Cart.toggleDrawer()>
-<i class=tf-ion-android-cart></i>
-</button>
-<button class="navbar-toggler border-0" type=button data-toggle=collapse data-target=#navigation aria-controls=navigation aria-expanded=false aria-label="Toggle navigation">
-<span class=navbar-toggler-icon></span></button><div class="collapse navbar-collapse text-center" id=navigation><ul class="navbar-nav ml-auto"><li class=nav-item><a class=nav-link href=/en/>Home</a></li><li class=nav-item><a class=nav-link href=/en/products>Products</a></li><li class=nav-item><a class=nav-link href=/en/blog>Blog</a></li><li class=nav-item><a class=nav-link href=/en/#testimonial>Review</a></li><li class=nav-item><a class=nav-link href=/en/contact>Contact</a></li><li class=nav-item id=auth-login-link><a class=nav-link href=/en/login>Login</a></li><li class=nav-item id=auth-signup-link><a class=nav-link href=/en/login#signup>Sign
-Up</a></li><li class=nav-item id=auth-logout-link style=display:none><a class=nav-link href=# onclick="return Auth.logout(),!1">Logout</a></li><li class=nav-item id=auth-profile-link style=display:none><a class=nav-link href=/en/profile style=padding-top:0;padding-bottom:0><div class="d-flex align-items-center"><img id=nav-avatar-img src alt=Avatar class="rounded-circle mr-2" style=width:30px;height:30px;object-fit:cover;display:none>
-<i id=nav-avatar-icon class=tf-ion-android-person style=font-size:24px;display:none></i></div></a></li></ul><select class=lang-list id=select-language onchange="location=this.value"><option id=en value=/en/ selected>English</option><option id=ko value=/ko/>한국어</option></select></div></nav></div></header><section class=section><div class=container><div class=row><div class="col-md-6 text-center mb-5 mb-md-0"><div class="img-fluid w-100"><img src=/images/watch.png alt=image class=img-fluid></div></div><div class="col-md-6 align-self-center text-center text-md-left"><div class=block><h1 class="font-weight-bold mb-4 font-size-60">Launch your next storefront faster</h1><p class=mb-4>A starter homepage for teams building a product-first shop with Hugo, PocketBase, and flexible client-side commerce flows. Replace this copy, swap the images, and ship your own brand experience.</p><a href=/en/products/ class="btn btn-main">Browse Products</a></div></div></div></div></section><section class=section id=features><div class=container><div class=row><div class=col-12><div class=heading><h2>Core Store Features</h2></div></div><div class=col-md-4><div class="mb-40 text-center text-md-left"><i class="d-inlin-block h2 mb-10 tf-ion-ios-speedometer-outline"></i><h4 class="font-weight-bold mb-2">Static-first speed</h4><p>Render storefront pages with Hugo while keeping product data easy to manage.</p></div><div class="mb-40 text-center text-md-left"><i class="d-inlin-block h2 mb-10 tf-ion-ios-cloud-outline"></i><h4 class="font-weight-bold mb-2">PocketBase-ready</h4><p>Use PocketBase for products, orders, reviews, inquiries, and member accounts.</p></div><div class="mb-40 text-center text-md-left"><i class="d-inlin-block h2 mb-10 tf-ion-ios-cart-outline"></i><h4 class="font-weight-bold mb-2">Flexible checkout</h4><p>Wire in your own payment provider and keep checkout UX under your control.</p></div></div><div class="col-md-4 text-center align-self-center mb-4 mb-md-0"><div class="img-fluid w-100"><img src=/images/watch-2.png alt=image class=img-fluid></div></div><div class=col-md-4><div class="mb-40 text-center text-md-left"><i class="d-inlin-block h2 mb-10 tf-ion-earth"></i><h4 class="font-weight-bold mb-2">Multilingual structure</h4><p>Start with Korean and English content directories and adapt them to your market.</p></div><div class="mb-40 text-center text-md-left"><i class="d-inlin-block h2 mb-10 tf-ion-ios-gear-outline"></i><h4 class="font-weight-bold mb-2">Admin workflows</h4><p>Manage products and content with lightweight admin screens backed by APIs.</p></div><div class="mb-40 text-center text-md-left"><i class="d-inlin-block h2 mb-10 tf-ion-ios-color-wand-outline"></i><h4 class="font-weight-bold mb-2">Easy theming</h4><p>Swap copy, imagery, colors, and sections without rebuilding the whole stack.</p></div></div></div></div></section><section class="bg-orange section"><div class=container><div class=row><div class="col-md-6 text-center mb-5 mb-lg-0"><div class="img-fluid w-100"><img src=/images/watch.png alt=image class=img-fluid></div></div><div class="col-md-6 align-self-center text-center text-md-left"><div class=content><h2 class="subheading text-white font-weight-bold mb-10">Built to become your store, not stay a demo</h2><p class=text-white>This boilerplate is meant to be customized quickly. Keep the structure, replace the voice, and connect the services your team already uses.<br><br>It works well for small catalogs, campaign storefronts, and content-driven commerce sites.</p></div></div></div></div></section><section class="feature-list section"><div class=container><div class=row><div class=col-md-12><div class=heading><h2>Why start from this boilerplate</h2></div></div></div><div class="row mb-40"><div class="col-md-6 text-center mb-5 mb-lg-0"><div class="img-fluid w-100"><img src=/images/showcase/showcase-4.png alt=image class=img-fluid></div></div><div class="col-md-6 align-self-center text-center text-md-left"><div class=content><h4 class=subheading>Faster setup</h4><p>You get working templates for product pages, cart flows, checkout, profile screens, and admin tools so you can focus on your own business logic.</p></div></div></div><div class="row mb-40"><div class="col-md-6 order-md-1 order-2 align-self-center text-center text-md-left"><div class=content><h4 class=subheading>Hybrid by design</h4><p>Keep the SEO and speed benefits of static pages while still supporting runtime features like login, reviews, and order handling.</p></div></div><div class="col-md-6 order-md-2 order-1 text-center mb-5 mb-lg-0"><div class="img-fluid w-100"><img src=/images/showcase/showcase-3.png alt=image class=img-fluid></div></div></div></div></section><section class=gallery id=products><div class=container><div class=row><div class=col-md-12><div class=heading><h2>Featured Products</h2></div><div class=product-slider-wrapper style=position:relative;overflow:hidden><div id=product-slider-container class=product-slider style=display:flex;gap:15px;will-change:transform><div class=text-center style=width:100%><div class=spinner-border role=status><span class=sr-only>로딩 중...</span></div></div></div></div><script>document.addEventListener("DOMContentLoaded",async function(){const n=document.getElementById("product-slider-container"),s=document.querySelector(".product-slider-wrapper"),o="en";let v=null,e=0,g=.5,p=!1,c=!1,m=0,t=0,r=!1,l=0,a=0,i=0,u=0,d=0;function h(e){return window.Utils.formatCurrency(e)}function b(e){return e.discount_price?`${h(e.discount_price)} <s class="text-muted">${h(e.price)}</s>`:h(e.price)}function j(e){const n=e.images&&e.images.length>0?productsApi.getImageUrl(e,e.images[0],"300x300"):"https://via.placeholder.com/300x300?text=No+Image",i=e.discount_price||e.price,a=`/${o}/products/${e.slug}/`,t=document.createElement("div");t.className="block",t.style.cssText="flex: 0 0 250px; min-width: 250px;",t.innerHTML=`
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <title>Hugo Commerce Boilerplate</title>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' * 'unsafe-inline' 'unsafe-eval' data: blob:;">
+
+  <!-- mobile responsive meta -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description"
+    content="Starter storefront built with Hugo, PocketBase, and client-side commerce flows.">
+  
+  <meta name="author" content="Codex Boilerplate">
+  <meta name="generator" content="Hugo 0.152.2">
+
+  <meta name="theme-name" content="vex-hugo" />
+
+  <!-- plugins -->
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid&#43;Serif:400%7cJosefin&#43;Sans:300,400,600,700">
+  
+  <link rel="stylesheet" href="/plugins/bootstrap/bootstrap.min.css">
+  
+  <link rel="stylesheet" href="/plugins/themefisher-font/themefisher-font.min.css">
+  
+  <link rel="stylesheet" href="/plugins/slick/slick.min.css">
+  
+
+  <!-- Main Stylesheet -->
+  
+  <link rel="stylesheet" href="/scss/style.min.css" media="screen">
+
+  <!-- Cart Styles -->
+  
+  <link rel="stylesheet" href="/scss/cart-styles.min.css" media="screen">
+
+  <!--Favicon-->
+  <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon">
+  <link rel="icon" href="/images/favicon.png" type="image/x-icon">
+
+  
+  <meta property="og:url" content="/en/">
+  <meta property="og:site_name" content="Hugo Commerce Boilerplate">
+  <meta property="og:title" content="Hugo Commerce Boilerplate">
+  <meta property="og:description" content="Starter storefront built with Hugo, PocketBase, and client-side commerce flows.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="website">
+
+  
+
+  
+  
+  
+  
+  
+  
+  
+
+  
+
+  <script>
+    window.SiteConfig = {
+      pocketbaseUrl: "http:\/\/127.0.0.1:8090"
+    };
+  </script>
+
+  <script>
+    window.ShopConfig = {
+      paymentsEnabled: false,
+      storeId: "",
+      currentLanguage: "en",
+      currencyCode: "USD",
+      currencySymbol: "$",
+      channels: {
+        "inicis": "",
+        "kakaopay": "",
+        "korean_payment": ""
+      },
+      koreanPaymentPassKey: ""
+    };
+  </script>
+
+  
+  <script src="/js/pocketbase.umd.js"></script>
+
+  
+  <script src="/js/mustache.min.js"></script>
+
+</head>
+<body id="body">
+<header class="sticky-top bg-white">
+  <div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light">
+      <a class="navbar-brand" href="/en/" style="width: 100px;">
+        
+        
+<div class="img-fluid">
+    
+    
+        
+        
+        <img src="/images/logo.png" alt="Hugo Commerce Boilerplate" class="img-fluid">
+        
+    
+</div>
+
+        
+      </a>
+
+      
+      <button class="cart" id="cart-trigger" onclick="Cart.toggleDrawer()">
+        <i class="tf-ion-android-cart"></i>
+      </button>
+
+      <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#navigation"
+        aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse text-center" id="navigation">
+        <ul class="navbar-nav ml-auto">
+          
+          <li class="nav-item">
+            <a class="nav-link"
+              href="/en/">Home</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="nav-link"
+              href="/en/products">Products</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="nav-link"
+              href="/en/blog">Blog</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="nav-link"
+              href="/en/#testimonial">Review</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="nav-link"
+              href="/en/contact">Contact</a>
+          </li>
+          
+          
+
+
+
+<li class="nav-item" id="auth-login-link">
+    <a class="nav-link" href="/en/login">Login</a>
+</li>
+<li class="nav-item" id="auth-signup-link">
+    <a class="nav-link" href="/en/login#signup">Sign
+        Up</a>
+</li>
+<li class="nav-item" id="auth-logout-link" style="display: none;">
+    <a class="nav-link" href="#" onclick="Auth.logout(); return false;">Logout</a>
+</li>
+<li class="nav-item" id="auth-profile-link" style="display: none;">
+    <a class="nav-link" href="/en/profile" style="padding-top: 0; padding-bottom: 0;">
+        <div class="d-flex align-items-center">
+            <img id="nav-avatar-img" src="" alt="Avatar" class="rounded-circle mr-2"
+                style="width: 30px; height: 30px; object-fit: cover; display: none;">
+            <i id="nav-avatar-icon" class="tf-ion-android-person" style="font-size: 24px; display: none;"></i>
+        </div>
+    </a>
+</li>
+        </ul>
+        
+        
+        <select class="lang-list" id="select-language" onchange="location = this.value;">
+          
+          
+          
+          
+          
+          
+          
+          
+          <option id="en" value="/en/" selected>English
+          </option>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <option id="ko" value="/ko/">한국어</option>
+          
+          
+          
+          
+        </select>
+        
+      </div>
+    </nav>
+  </div>
+</header>
+
+
+<section class="section">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 text-center mb-5 mb-md-0">
+				
+<div class="img-fluid w-100">
+    
+    
+        
+        
+        <img src="/images/watch.png" alt="image" class="img-fluid">
+        
+    
+</div>
+
+			</div>
+			<div class="col-md-6 align-self-center text-center text-md-left">
+				<div class="block">
+					<h1 class="font-weight-bold mb-4 font-size-60">Launch your next storefront faster</h1>
+					<p class="mb-4">A starter homepage for teams building a product-first shop with Hugo, PocketBase, and flexible client-side commerce flows. Replace this copy, swap the images, and ship your own brand experience.</p>
+					
+					
+					<a href="/en/products/" class="btn btn-main">Browse Products</a>
+					
+					
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<section class="section" id="features">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="heading">
+          <h2>Core Store Features</h2>
+        </div>
+      </div>
+      <div class="col-md-4">
+        
+        <div class="mb-40 text-center text-md-left">
+          <i class="d-inlin-block h2 mb-10 tf-ion-ios-speedometer-outline"></i>
+          <h4 class="font-weight-bold mb-2">Static-first speed</h4>
+          <p>Render storefront pages with Hugo while keeping product data easy to manage.</p>
+        </div>
+        
+        <div class="mb-40 text-center text-md-left">
+          <i class="d-inlin-block h2 mb-10 tf-ion-ios-cloud-outline"></i>
+          <h4 class="font-weight-bold mb-2">PocketBase-ready</h4>
+          <p>Use PocketBase for products, orders, reviews, inquiries, and member accounts.</p>
+        </div>
+        
+        <div class="mb-40 text-center text-md-left">
+          <i class="d-inlin-block h2 mb-10 tf-ion-ios-cart-outline"></i>
+          <h4 class="font-weight-bold mb-2">Flexible checkout</h4>
+          <p>Wire in your own payment provider and keep checkout UX under your control.</p>
+        </div>
+        
+      </div>
+      <div class="col-md-4 text-center align-self-center mb-4 mb-md-0">
+        
+<div class="img-fluid w-100">
+    
+    
+        
+        
+        <img src="/images/watch-2.png" alt="image" class="img-fluid">
+        
+    
+</div>
+
+      </div>
+      <div class="col-md-4">
+        
+        <div class="mb-40 text-center text-md-left">
+          <i class="d-inlin-block h2 mb-10 tf-ion-earth"></i>
+          <h4 class="font-weight-bold mb-2">Multilingual structure</h4>
+          <p>Start with Korean and English content directories and adapt them to your market.</p>
+        </div>
+        
+        <div class="mb-40 text-center text-md-left">
+          <i class="d-inlin-block h2 mb-10 tf-ion-ios-gear-outline"></i>
+          <h4 class="font-weight-bold mb-2">Admin workflows</h4>
+          <p>Manage products and content with lightweight admin screens backed by APIs.</p>
+        </div>
+        
+        <div class="mb-40 text-center text-md-left">
+          <i class="d-inlin-block h2 mb-10 tf-ion-ios-color-wand-outline"></i>
+          <h4 class="font-weight-bold mb-2">Easy theming</h4>
+          <p>Swap copy, imagery, colors, and sections without rebuilding the whole stack.</p>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<section class="bg-orange section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 text-center mb-5 mb-lg-0">
+        
+<div class="img-fluid w-100">
+    
+    
+        
+        
+        <img src="/images/watch.png" alt="image" class="img-fluid">
+        
+    
+</div>
+
+      </div>
+      <div class="col-md-6 align-self-center text-center text-md-left">
+        <div class="content">
+          <h2 class="subheading text-white font-weight-bold mb-10">Built to become your store, not stay a demo</h2>
+          <p class="text-white">This boilerplate is meant to be customized quickly. Keep the structure, replace the voice, and connect the services your team already uses.
+<br><br>
+It works well for small catalogs, campaign storefronts, and content-driven commerce sites.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+<section class="feature-list section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="heading">
+          <h2>Why start from this boilerplate</h2>
+        </div>
+      </div>
+    </div>
+    
+    <div class="row mb-40">
+      <div class="col-md-6 text-center mb-5 mb-lg-0">
+        
+<div class="img-fluid w-100">
+    
+    
+        
+        
+        <img src="/images/showcase/showcase-4.png" alt="image" class="img-fluid">
+        
+    
+</div>
+
+      </div>
+      <div class="col-md-6 align-self-center text-center text-md-left">
+        <div class="content">
+          <h4 class="subheading">Faster setup</h4>
+          <p>You get working templates for product pages, cart flows, checkout, profile screens, and admin tools so you can focus on your own business logic.</p>
+          
+        </div>
+      </div>
+    </div>
+    
+    <div class="row mb-40">
+      <div class="col-md-6 order-md-1 order-2 align-self-center text-center text-md-left">
+        <div class="content">
+          <h4 class="subheading">Hybrid by design</h4>
+          <p>Keep the SEO and speed benefits of static pages while still supporting runtime features like login, reviews, and order handling.</p>
+          
+        </div>
+      </div>
+      <div class="col-md-6 order-md-2 order-1 text-center mb-5 mb-lg-0">
+        
+<div class="img-fluid w-100">
+    
+    
+        
+        
+        <img src="/images/showcase/showcase-3.png" alt="image" class="img-fluid">
+        
+    
+</div>
+
+      </div>
+    </div>
+    
+    
+  </div>
+</section>
+
+
+
+
+
+<section class="gallery" id="products">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="heading">
+                    <h2>Featured Products</h2>
+                </div>
+
+                <div class="product-slider-wrapper" style="position: relative; overflow: hidden;">
+                    <div id="product-slider-container" class="product-slider"
+                        style="display: flex; gap: 15px; will-change: transform;">
+                        <div class="text-center" style="width: 100%;">
+                            <div class="spinner-border" role="status">
+                                <span class="sr-only">로딩 중...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <script>
+                    document.addEventListener('DOMContentLoaded', async function () {
+                        const container = document.getElementById('product-slider-container');
+                        const wrapper = document.querySelector('.product-slider-wrapper');
+                        const lang = 'en';
+                        let animationFrame = null;
+                        let currentPosition = 0;
+                        let speed = 0.5;
+                        let isPaused = false;
+                        let isHovering = false;
+                        let productWidth = 0;
+                        let totalWidth = 0;
+                        let isDragging = false;
+                        let startX = 0;
+                        let startPosition = 0;
+                        let dragVelocity = 0;
+                        let lastX = 0;
+                        let lastTime = 0;
+
+                        function formatPrice(price) {
+                            return window.Utils.formatCurrency(price);
+                        }
+
+                        function renderPrice(product) {
+                            if (product.discount_price) {
+                                return `${formatPrice(product.discount_price)} <s class="text-muted">${formatPrice(product.price)}</s>`;
+                            }
+
+                            return formatPrice(product.price);
+                        }
+
+                        function createProductElement(product) {
+                            const imageUrl = (product.images && product.images.length > 0)
+                                ? productsApi.getImageUrl(product, product.images[0], '300x300')
+                                : 'https://via.placeholder.com/300x300?text=No+Image';
+
+                            const finalPrice = product.discount_price || product.price;
+                            const detailUrl = `/${lang}/products/${product.slug}/`;
+
+                            const block = document.createElement('div');
+                            block.className = 'block';
+                            block.style.cssText = 'flex: 0 0 250px; min-width: 250px;';
+                            block.innerHTML = `
                 <div class="gallery-overlay">
-                  <a href="${a}" class="gallery-popup">
+                  <a href="${detailUrl}" class="gallery-popup">
                     <i class="tf-ion-plus-round"></i>
                   </a>
                   <button class="btn btn-primary btn-main-sm cart-btn"
                     style="position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%); z-index: 10; white-space: nowrap; box-shadow: 0 2px 8px rgba(0,0,0,0.15);">
-                    ${o==="ko"?"🛒 장바구니 추가":"🛒 Add to cart"}
+                    ${lang === 'ko' ? '🛒 장바구니 추가' : '🛒 Add to cart'}
                   </button>
                 </div>
-                <img class="img-fluid" src="${n}" alt="${e.title}" onerror="this.src='https://via.placeholder.com/300x300?text=Error'" draggable="false">
+                <img class="img-fluid" src="${imageUrl}" alt="${product.title}" onerror="this.src='https://via.placeholder.com/300x300?text=Error'" draggable="false">
                 <div class="product-info text-center mt-2">
-                  <h4 class="mb-1">${e.title}</h4>
-                  <p class="price">${b(e)}</p>
+                  <h4 class="mb-1">${product.title}</h4>
+                  <p class="price">${renderPrice(product)}</p>
                 </div>
-              `;const s=t.querySelector(".cart-btn");return s&&s.addEventListener("click",function(t){t.preventDefault(),typeof Cart!="undefined"&&Cart.addItem?Cart.addItem({id:e.id,name:e.title,price:i,image:n,options:{language:o,currency:o==="ko"?"KRW":"USD"}}):(console.error("Cart is not defined"),alert(o==="ko"?"장바구니 기능을 사용할 수 없습니다.":"Cart is unavailable."))}),t}function f(){!p&&!c&&!r&&(e-=g,Math.abs(e)>=t&&(e=0),n.style.transform=`translateX(${e}px)`),v=requestAnimationFrame(f)}s.addEventListener("mouseenter",function(){c=!0}),s.addEventListener("mouseleave",function(){c=!1}),s.addEventListener("wheel",function(s){if(c){s.preventDefault();const o=s.deltaY*2;e-=o,e>0?e-=t:Math.abs(e)>=t*2&&(e+=t),n.style.transform=`translateX(${e}px)`}},{passive:!1}),s.addEventListener("mousedown",function(t){if(t.target.closest("button")||t.target.closest("a"))return;r=!0,l=t.pageX,a=e,u=t.pageX,d=Date.now(),i=0,s.style.cursor="grabbing",s.style.userSelect="none"}),document.addEventListener("mousemove",function(s){if(!r)return;s.preventDefault();const o=s.pageX,m=o-l;e=a+m;const c=Date.now(),h=c-d;h>0&&(i=(o-u)/h),u=o,d=c,e>0?(e-=t,a-=t,l=s.pageX-(e-a)):Math.abs(e)>=t*2&&(e+=t,a+=t,l=s.pageX-(e-a)),n.style.transform=`translateX(${e}px)`}),document.addEventListener("mouseup",function(){if(!r)return;if(r=!1,s.style.cursor="grab",s.style.userSelect="",Math.abs(i)>.1){let s=function(){Math.abs(i)>.01&&(e+=i*16,i*=.95,e>0?e-=t:Math.abs(e)>=t*2&&(e+=t),n.style.transform=`translateX(${e}px)`,requestAnimationFrame(s))};requestAnimationFrame(s)}}),s.style.cursor="grab";try{console.log("Loading products for homepage...");const e=await productsApi.getList({perPage:20,sort:"-order,-created"});if(e.items&&e.items.length>0){console.log("Processing products:",e.items),n.innerHTML="",n.style.display="flex",n.style.gap="15px";const s=Math.max(3,Math.ceil(20/e.items.length));for(let t=0;t<s;t++)e.items.forEach(e=>{const t=j(e);n.appendChild(t)});setTimeout(()=>{const s=n.querySelector(".block");s&&(m=s.offsetWidth+15,t=m*e.items.length,f(),console.log("Infinite scroll slider started with drag, wheel control and inertia"))},100)}else console.log("No products found"),n.innerHTML=`<p class="text-center" style="width: 100%;">${o==="ko"?"등록된 상품이 없습니다.":"No products found."}</p>`}catch(e){console.error("Failed to load products:",e),n.innerHTML=`<p class="text-center text-danger" style="width: 100%;">${o==="ko"?"상품을 불러오는 중 오류가 발생했습니다:":"Failed to load products:"} ${e.message}</p>`}})</script></div></div></div></section><section class="call-to-action section bg-opacity" style=background-image:url(/images/call-to-action.jpg)><div class=container><div class=row><div class="col-lg-6 col-md-8 text-center mx-auto"><h2 class="subheading text-white">Stay in the loop</h2><p class=text-white>Use this section for launches, restocks, or campaign announcements.</p><div class=input-group><form method=post class=w-100 name=mc-embedded-subscribe-form target=_blank><input type=email id=email class=form-control name=email placeholder="Enter your email address" required>
-<button class="btn btn-main btn-submit" type=submit name=subscribe>Subscribe</button><div style=position:absolute;left:-5e3px aria-hidden=true><input type=text tabindex=-1></div></form></div></div></div></div></section><section class="testimonials section" id=testimonial><div class=container><div class="row justify-content-center"><div class=col-12><div class=heading><h2>Sample Feedback</h2></div></div><div class="col-lg-4 col-sm-6 mb-5 mb-lg-0 text-center"><div class=testimonial-block><i class=tf-ion-quote></i><p>The structure made it easy to launch a polished storefront without rebuilding account, cart, and content flows from scratch.</p><div class=author-details><div><img src=/images/avater.png alt="Alex Kim" class=img-fluid></div><h4>Alex Kim</h4><span>Store Owner</span></div></div></div><div class="col-lg-4 col-sm-6 mb-5 mb-lg-0 text-center"><div class=testimonial-block><i class=tf-ion-quote></i><p>We reused the homepage sections, connected our own backend data, and had a branded campaign shop up quickly.</p><div class=author-details><div><img src=/images/avater.png alt="Morgan Lee" class=img-fluid></div><h4>Morgan Lee</h4><span>Product Marketer</span></div></div></div><div class="col-lg-4 col-sm-6 mb-5 mb-lg-0 text-center"><div class=testimonial-block><i class=tf-ion-quote></i><p>The Hugo templates are straightforward to customize, and the PocketBase sync scripts are a useful starting point for real projects.</p><div class=author-details><div><img src=/images/avater.png alt="Jamie Park" class=img-fluid></div><h4>Jamie Park</h4><span>Frontend Developer</span></div></div></div></div></div></section><footer><div class="container text-center"><div class=row><div class=col-md-12><div class=block><a href=/en/ class="mb-4 d-inline-block" style=width:100px><div class=img-fluid><img src=/images/logo.png alt="Hugo Commerce Boilerplate" class=img-fluid></div></a><ul class="list-inline footer-menu"><li class=list-inline-item><a href=/en/blog>Blog</a></li><li class=list-inline-item><a href=/en/contact>Contact</a></li><li class=list-inline-item><a href=/en/terms-conditions>Terms & Conditions</a></li><li class=list-inline-item><a href=/en/privacy-policy>Privacy Policy</a></li></ul><p class=copyright-text>Copyright © 2026 Your Store. Built with Hugo Commerce Boilerplate.</p></div></div></div></div></footer><script src=/plugins/jquery/jquery.js></script><script src=/plugins/bootstrap/bootstrap.min.js></script><script src=/plugins/slick/slick.min.js></script><script src=/js/script.js></script><script src="/js/bundle.fc3bd1d6cc6140fd558c9ac8782af66acc24920a9d7b864879dacdbc76192ac5.js?v=1773733504"></script><script>const loginUrl="/en/login"</script><div id=cart-overlay onclick=Cart.toggleDrawer()></div><div id=cart-drawer><div class=cart-header><div class="d-flex align-items-center"><h3>🛒 Cart</h3><span class=cart-count id=cart-item-count>0</span></div><button onclick=Cart.toggleDrawer() class=close-btn aria-label="Close cart">
-×</button></div><div id=cart-items-container><div class=cart-loading><div class=spinner></div></div></div><script id=cart-template type=x-tmpl-mustache>
+              `;
+
+                            const cartBtn = block.querySelector('.cart-btn');
+                            if (cartBtn) {
+                                cartBtn.addEventListener('click', function (e) {
+                                    e.preventDefault();
+                                    if (typeof Cart !== 'undefined' && Cart.addItem) {
+                                        Cart.addItem({
+                                            id: product.id,
+                                            name: product.title,
+                                            price: finalPrice,
+                                            image: imageUrl,
+                                            options: {
+                                                language: lang,
+                                                currency: lang === 'ko' ? 'KRW' : 'USD'
+                                            }
+                                        });
+                                    } else {
+                                        console.error('Cart is not defined');
+                                        alert(lang === 'ko' ? '장바구니 기능을 사용할 수 없습니다.' : 'Cart is unavailable.');
+                                    }
+                                });
+                            }
+
+                            return block;
+                        }
+
+                        function animate() {
+                            if (!isPaused && !isHovering && !isDragging) {
+                                currentPosition -= speed;
+
+                                if (Math.abs(currentPosition) >= totalWidth) {
+                                    currentPosition = 0;
+                                }
+
+                                container.style.transform = `translateX(${currentPosition}px)`;
+                            }
+
+                            animationFrame = requestAnimationFrame(animate);
+                        }
+
+                        wrapper.addEventListener('mouseenter', function () {
+                            isHovering = true;
+                        });
+
+                        wrapper.addEventListener('mouseleave', function () {
+                            isHovering = false;
+                        });
+
+                        wrapper.addEventListener('wheel', function (e) {
+                            if (isHovering) {
+                                e.preventDefault();
+                                const scrollAmount = e.deltaY * 2;
+                                currentPosition -= scrollAmount;
+
+                                if (currentPosition > 0) {
+                                    currentPosition -= totalWidth;
+                                } else if (Math.abs(currentPosition) >= totalWidth * 2) {
+                                    currentPosition += totalWidth;
+                                }
+
+                                container.style.transform = `translateX(${currentPosition}px)`;
+                            }
+                        }, { passive: false });
+
+                        wrapper.addEventListener('mousedown', function (e) {
+                            if (e.target.closest('button') || e.target.closest('a')) {
+                                return;
+                            }
+
+                            isDragging = true;
+                            startX = e.pageX;
+                            startPosition = currentPosition;
+                            lastX = e.pageX;
+                            lastTime = Date.now();
+                            dragVelocity = 0;
+
+                            wrapper.style.cursor = 'grabbing';
+                            wrapper.style.userSelect = 'none';
+                        });
+
+                        document.addEventListener('mousemove', function (e) {
+                            if (!isDragging) return;
+
+                            e.preventDefault();
+                            const currentX = e.pageX;
+                            const diff = currentX - startX;
+                            currentPosition = startPosition + diff;
+
+                            const currentTime = Date.now();
+                            const timeDiff = currentTime - lastTime;
+                            if (timeDiff > 0) {
+                                dragVelocity = (currentX - lastX) / timeDiff;
+                            }
+                            lastX = currentX;
+                            lastTime = currentTime;
+
+                            if (currentPosition > 0) {
+                                currentPosition -= totalWidth;
+                                startPosition -= totalWidth;
+                                startX = e.pageX - (currentPosition - startPosition);
+                            } else if (Math.abs(currentPosition) >= totalWidth * 2) {
+                                currentPosition += totalWidth;
+                                startPosition += totalWidth;
+                                startX = e.pageX - (currentPosition - startPosition);
+                            }
+
+                            container.style.transform = `translateX(${currentPosition}px)`;
+                        });
+
+                        document.addEventListener('mouseup', function () {
+                            if (!isDragging) return;
+
+                            isDragging = false;
+                            wrapper.style.cursor = 'grab';
+                            wrapper.style.userSelect = '';
+
+                            if (Math.abs(dragVelocity) > 0.1) {
+                                let inertiaAnimation = function () {
+                                    if (Math.abs(dragVelocity) > 0.01) {
+                                        currentPosition += dragVelocity * 16;
+                                        dragVelocity *= 0.95;
+
+                                        if (currentPosition > 0) {
+                                            currentPosition -= totalWidth;
+                                        } else if (Math.abs(currentPosition) >= totalWidth * 2) {
+                                            currentPosition += totalWidth;
+                                        }
+
+                                        container.style.transform = `translateX(${currentPosition}px)`;
+                                        requestAnimationFrame(inertiaAnimation);
+                                    }
+                                };
+                                requestAnimationFrame(inertiaAnimation);
+                            }
+                        });
+
+                        wrapper.style.cursor = 'grab';
+
+                        try {
+                            console.log('Loading products for homepage...');
+                            const result = await productsApi.getList({ perPage: 20, sort: '-order,-created' });
+
+                            if (result.items && result.items.length > 0) {
+                                console.log('Processing products:', result.items);
+                                container.innerHTML = '';
+                                container.style.display = 'flex';
+                                container.style.gap = '15px';
+
+                                const repeatCount = Math.max(3, Math.ceil(20 / result.items.length));
+
+                                for (let i = 0; i < repeatCount; i++) {
+                                    result.items.forEach(product => {
+                                        const block = createProductElement(product);
+                                        container.appendChild(block);
+                                    });
+                                }
+
+                                setTimeout(() => {
+                                    const firstItem = container.querySelector('.block');
+                                    if (firstItem) {
+                                        productWidth = firstItem.offsetWidth + 15;
+                                        totalWidth = productWidth * result.items.length;
+                                        animate();
+                                        console.log('Infinite scroll slider started with drag, wheel control and inertia');
+                                    }
+                                }, 100);
+                            } else {
+                                console.log('No products found');
+                                container.innerHTML = `<p class="text-center" style="width: 100%;">${lang === 'ko' ? '등록된 상품이 없습니다.' : 'No products found.'}</p>`;
+                            }
+                        } catch (error) {
+                            console.error('Failed to load products:', error);
+                            container.innerHTML = `<p class="text-center text-danger" style="width: 100%;">${lang === 'ko' ? '상품을 불러오는 중 오류가 발생했습니다:' : 'Failed to load products:'} ${error.message}</p>`;
+                        }
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="call-to-action section bg-opacity" style="background-image: url('/images/call-to-action.jpg');">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6 col-md-8 text-center mx-auto">
+        <h2 class="subheading text-white">Stay in the loop</h2>
+        <p class="text-white">Use this section for launches, restocks, or campaign announcements.</p>
+        <div class="input-group">
+          <form action="" method="post" class="w-100" name="mc-embedded-subscribe-form" target="_blank">
+            <input type="email" id="email" class="form-control" name="email" placeholder="Enter your email address"
+              required>
+            <button class="btn btn-main btn-submit" type="submit" name="subscribe">Subscribe</button>
+            <div style="position: absolute; left: -5000px;" aria-hidden="true">
+              <input type="text" name="" tabindex="-1">
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="testimonials section" id="testimonial">
+  <div class="container">
+    
+    <div class="row justify-content-center">
+      <div class="col-12">
+        <div class="heading">
+          <h2>Sample Feedback</h2>
+        </div>
+      </div>
+      
+      <div class="col-lg-4 col-sm-6 mb-5 mb-lg-0 text-center">
+        <div class="testimonial-block">
+          <i class="tf-ion-quote"></i>
+          <p>The structure made it easy to launch a polished storefront without rebuilding account, cart, and content flows from scratch.</p>
+          <div class="author-details">
+            
+<div class="">
+    
+    
+        
+        
+        <img src="/images/avater.png" alt="Alex Kim" class="img-fluid">
+        
+    
+</div>
+
+            <h4>Alex Kim</h4>
+            <span>Store Owner</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-lg-4 col-sm-6 mb-5 mb-lg-0 text-center">
+        <div class="testimonial-block">
+          <i class="tf-ion-quote"></i>
+          <p>We reused the homepage sections, connected our own backend data, and had a branded campaign shop up quickly.</p>
+          <div class="author-details">
+            
+<div class="">
+    
+    
+        
+        
+        <img src="/images/avater.png" alt="Morgan Lee" class="img-fluid">
+        
+    
+</div>
+
+            <h4>Morgan Lee</h4>
+            <span>Product Marketer</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-lg-4 col-sm-6 mb-5 mb-lg-0 text-center">
+        <div class="testimonial-block">
+          <i class="tf-ion-quote"></i>
+          <p>The Hugo templates are straightforward to customize, and the PocketBase sync scripts are a useful starting point for real projects.</p>
+          <div class="author-details">
+            
+<div class="">
+    
+    
+        
+        
+        <img src="/images/avater.png" alt="Jamie Park" class="img-fluid">
+        
+    
+</div>
+
+            <h4>Jamie Park</h4>
+            <span>Frontend Developer</span>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+    
+  </div>
+</section>
+
+
+<footer>
+  <div class="container text-center">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="block">
+          <a href="/en/" class="mb-4 d-inline-block"
+            style="width: 100px;">
+            
+            
+<div class="img-fluid">
+    
+    
+        
+        
+        <img src="/images/logo.png" alt="Hugo Commerce Boilerplate" class="img-fluid">
+        
+    
+</div>
+
+            
+          </a>
+          <ul class="list-inline footer-menu">
+            
+            <li class="list-inline-item">
+              <a href="/en/blog">Blog</a>
+            </li>
+            
+            <li class="list-inline-item">
+              <a href="/en/contact">Contact</a>
+            </li>
+            
+            <li class="list-inline-item">
+              <a href="/en/terms-conditions">Terms &amp; Conditions</a>
+            </li>
+            
+            <li class="list-inline-item">
+              <a href="/en/privacy-policy">Privacy Policy</a>
+            </li>
+            
+          </ul>
+          <p class="copyright-text">Copyright © 2026 Your Store. Built with Hugo Commerce Boilerplate.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+
+
+
+<script src="/plugins/jquery/jquery.js"></script>
+
+<script src="/plugins/bootstrap/bootstrap.min.js"></script>
+
+<script src="/plugins/slick/slick.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+
+<script src="/js/bundle.fc3bd1d6cc6140fd558c9ac8782af66acc24920a9d7b864879dacdbc76192ac5.js?v=1773883762"></script>
+
+
+<script>
+  const loginUrl = "\/en\/login";
+</script>
+
+
+<div id="cart-overlay" onclick="Cart.toggleDrawer()"></div>
+
+
+<div id="cart-drawer">
+  <div class="cart-header">
+    <div class="d-flex align-items-center">
+      <h3>🛒 Cart</h3>
+      <span class="cart-count" id="cart-item-count">0</span>
+    </div>
+    <button onclick="Cart.toggleDrawer()" class="close-btn" aria-label="Close cart">
+      ×
+    </button>
+  </div>
+
+  <div id="cart-items-container">
+    <div class="cart-loading">
+      <div class="spinner"></div>
+    </div>
+  </div>
+
+  
+<script id="cart-template" type="x-tmpl-mustache">
     [[^items]]
     <div class="empty-cart">
       <div class="empty-icon">🛍️</div>
@@ -99,7 +940,34 @@ Up</a></li><li class=nav-item id=auth-logout-link style=display:none><a class=na
         </p>
     </div>
     [[/hasItems]]
-</script><div class=cart-footer style=display:none id=cart-footer><div class=cart-summary><div class=summary-row><span>Subtotal</span>
-<span class=amount id=cart-subtotal>$0.00</span></div><div class="summary-row total"><span>Total</span>
-<span class=amount id=cart-total>$0.00</span></div></div><button onclick=Cart.checkout() class=checkout-btn id=checkout-btn>
-💳 Checkout</button></div></div><script>document.addEventListener("DOMContentLoaded",function(){window.ShopConfig&&window.Cart&&Cart.init(window.ShopConfig)})</script></body></html>
+</script>
+
+
+  <div class="cart-footer" style="display: none;" id="cart-footer">
+    <div class="cart-summary">
+      <div class="summary-row">
+        <span>Subtotal</span>
+        <span class="amount" id="cart-subtotal">$0.00</span>
+      </div>
+      <div class="summary-row total">
+        <span>Total</span>
+        <span class="amount" id="cart-total">$0.00</span>
+      </div>
+    </div>
+
+    <button onclick="Cart.checkout()" class="checkout-btn" id="checkout-btn">
+      💳 Checkout
+    </button>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    if (window.ShopConfig && window.Cart) {
+      Cart.init(window.ShopConfig);
+    }
+  });
+</script>
+</body>
+
+</html>

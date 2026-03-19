@@ -1,10 +1,320 @@
-<!doctype html><html lang=ko><head><meta charset=utf-8><title>최신 포스트</title><meta http-equiv=Content-Security-Policy content="default-src 'self' * 'unsafe-inline' 'unsafe-eval' data: blob:;"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><meta name=description content="메타 설명입니다"><meta name=author content="Codex Boilerplate"><meta name=generator content="Hugo 0.152.2"><meta name=theme-name content="vex-hugo"><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Droid+Serif:400%7cJosefin+Sans:300,400,600,700"><link rel=stylesheet href=/plugins/bootstrap/bootstrap.min.css><link rel=stylesheet href=/plugins/themefisher-font/themefisher-font.min.css><link rel=stylesheet href=/plugins/slick/slick.min.css><link rel=stylesheet href=/scss/style.min.css media=screen><link rel=stylesheet href=/scss/cart-styles.min.css media=screen><link rel="shortcut icon" href=/images/favicon.png type=image/x-icon><link rel=icon href=/images/favicon.png type=image/x-icon><meta property="og:url" content="/ko/blog/"><meta property="og:site_name" content="휴고 커머스 보일러플레이트"><meta property="og:title" content="최신 포스트"><meta property="og:description" content="메타 설명입니다"><meta property="og:locale" content="ko"><meta property="og:type" content="website"><script>window.SiteConfig={pocketbaseUrl:"http://127.0.0.1:8090"}</script><script>window.ShopConfig={paymentsEnabled:!1,storeId:"",currentLanguage:"ko",currencyCode:"KRW",currencySymbol:"₩",channels:{inicis:"",kakaopay:"",korean_payment:""},koreanPaymentPassKey:""}</script><script src=/js/pocketbase.umd.js></script><script src=/js/mustache.min.js></script></head><body id=body><header class="sticky-top bg-white"><div class=container><nav class="navbar navbar-expand-lg navbar-light"><a class=navbar-brand href=/ko/ style=width:100px><div class=img-fluid><img src=/images/logo.png alt="휴고 커머스 보일러플레이트" class=img-fluid></div></a><button class=cart id=cart-trigger onclick=Cart.toggleDrawer()>
-<i class=tf-ion-android-cart></i>
-</button>
-<button class="navbar-toggler border-0" type=button data-toggle=collapse data-target=#navigation aria-controls=navigation aria-expanded=false aria-label="Toggle navigation">
-<span class=navbar-toggler-icon></span></button><div class="collapse navbar-collapse text-center" id=navigation><ul class="navbar-nav ml-auto"><li class=nav-item><a class=nav-link href=/ko/>홈</a></li><li class=nav-item><a class=nav-link href=/ko/products>제품</a></li><li class=nav-item><a class=nav-link href=/ko/blog>블로그</a></li><li class=nav-item><a class=nav-link href=/ko/#testimonial>리뷰</a></li><li class=nav-item><a class=nav-link href=/ko/contact>연락처</a></li><li class=nav-item id=auth-login-link><a class=nav-link href=/ko/login>로그인</a></li><li class=nav-item id=auth-signup-link><a class=nav-link href=/ko/login#signup>회원가입</a></li><li class=nav-item id=auth-logout-link style=display:none><a class=nav-link href=# onclick="return Auth.logout(),!1">로그아웃</a></li><li class=nav-item id=auth-profile-link style=display:none><a class=nav-link href=/ko/profile style=padding-top:0;padding-bottom:0><div class="d-flex align-items-center"><img id=nav-avatar-img src alt=Avatar class="rounded-circle mr-2" style=width:30px;height:30px;object-fit:cover;display:none>
-<i id=nav-avatar-icon class=tf-ion-android-person style=font-size:24px;display:none></i></div></a></li></ul><select class=lang-list id=select-language onchange="location=this.value"><option id=en value=/en/blog/>English</option><option id=ko value=/ko/blog/ selected>한국어</option></select></div></nav></div></header><section class="feature-list section"><div class=container><div class=row><div class="col-12 text-center mb-5"><h1>최신 포스트</h1></div></div></div></section><footer><div class="container text-center"><div class=row><div class=col-md-12><div class=block><a href=/ko/ class="mb-4 d-inline-block" style=width:100px><div class=img-fluid><img src=/images/logo.png alt="휴고 커머스 보일러플레이트" class=img-fluid></div></a><ul class="list-inline footer-menu"><li class=list-inline-item><a href=/ko/blog>블로그</a></li><li class=list-inline-item><a href=/ko/contact>연락처</a></li><li class=list-inline-item><a href=/ko/terms-conditions>이용 약관</a></li><li class=list-inline-item><a href=/ko/privacy-policy>개인정보 처리방침</a></li></ul><p class=copyright-text>Copyright © 2026 Your Store. Built with Hugo Commerce Boilerplate.</p></div></div></div></div></footer><script src=/plugins/jquery/jquery.js></script><script src=/plugins/bootstrap/bootstrap.min.js></script><script src=/plugins/slick/slick.min.js></script><script src=/js/script.js></script><script src="/js/bundle.fc3bd1d6cc6140fd558c9ac8782af66acc24920a9d7b864879dacdbc76192ac5.js?v=1773733503"></script><script>const loginUrl="/ko/login"</script><div id=cart-overlay onclick=Cart.toggleDrawer()></div><div id=cart-drawer><div class=cart-header><div class="d-flex align-items-center"><h3>🛒 장바구니</h3><span class=cart-count id=cart-item-count>0</span></div><button onclick=Cart.toggleDrawer() class=close-btn aria-label="Close cart">
-×</button></div><div id=cart-items-container><div class=cart-loading><div class=spinner></div></div></div><script id=cart-template type=x-tmpl-mustache>
+<!DOCTYPE html>
+<html lang="ko"><head>
+  <meta charset="utf-8">
+  <title>최신 포스트</title>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' * 'unsafe-inline' 'unsafe-eval' data: blob:;">
+
+  <!-- mobile responsive meta -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description"
+    content="메타 설명입니다">
+  
+  <meta name="author" content="Codex Boilerplate">
+  <meta name="generator" content="Hugo 0.152.2">
+
+  <meta name="theme-name" content="vex-hugo" />
+
+  <!-- plugins -->
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid&#43;Serif:400%7cJosefin&#43;Sans:300,400,600,700">
+  
+  <link rel="stylesheet" href="/plugins/bootstrap/bootstrap.min.css">
+  
+  <link rel="stylesheet" href="/plugins/themefisher-font/themefisher-font.min.css">
+  
+  <link rel="stylesheet" href="/plugins/slick/slick.min.css">
+  
+
+  <!-- Main Stylesheet -->
+  
+  <link rel="stylesheet" href="/scss/style.min.css" media="screen">
+
+  <!-- Cart Styles -->
+  
+  <link rel="stylesheet" href="/scss/cart-styles.min.css" media="screen">
+
+  <!--Favicon-->
+  <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon">
+  <link rel="icon" href="/images/favicon.png" type="image/x-icon">
+
+  
+  <meta property="og:url" content="/ko/blog/">
+  <meta property="og:site_name" content="휴고 커머스 보일러플레이트">
+  <meta property="og:title" content="최신 포스트">
+  <meta property="og:description" content="메타 설명입니다">
+  <meta property="og:locale" content="ko">
+  <meta property="og:type" content="website">
+
+  
+
+  
+  
+  
+  
+  
+  
+  
+
+  
+
+  <script>
+    window.SiteConfig = {
+      pocketbaseUrl: "http:\/\/127.0.0.1:8090"
+    };
+  </script>
+
+  <script>
+    window.ShopConfig = {
+      paymentsEnabled: false,
+      storeId: "",
+      currentLanguage: "ko",
+      currencyCode: "KRW",
+      currencySymbol: "₩",
+      channels: {
+        "inicis": "",
+        "kakaopay": "",
+        "korean_payment": ""
+      },
+      koreanPaymentPassKey: ""
+    };
+  </script>
+
+  
+  <script src="/js/pocketbase.umd.js"></script>
+
+  
+  <script src="/js/mustache.min.js"></script>
+
+</head>
+<body id="body">
+<header class="sticky-top bg-white">
+  <div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light">
+      <a class="navbar-brand" href="/ko/" style="width: 100px;">
+        
+        
+<div class="img-fluid">
+    
+    
+        
+        
+        <img src="/images/logo.png" alt="휴고 커머스 보일러플레이트" class="img-fluid">
+        
+    
+</div>
+
+        
+      </a>
+
+      
+      <button class="cart" id="cart-trigger" onclick="Cart.toggleDrawer()">
+        <i class="tf-ion-android-cart"></i>
+      </button>
+
+      <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#navigation"
+        aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse text-center" id="navigation">
+        <ul class="navbar-nav ml-auto">
+          
+          <li class="nav-item">
+            <a class="nav-link"
+              href="/ko/">홈</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="nav-link"
+              href="/ko/products">제품</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="nav-link"
+              href="/ko/blog">블로그</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="nav-link"
+              href="/ko/#testimonial">리뷰</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="nav-link"
+              href="/ko/contact">연락처</a>
+          </li>
+          
+          
+
+
+
+<li class="nav-item" id="auth-login-link">
+    <a class="nav-link" href="/ko/login">로그인</a>
+</li>
+<li class="nav-item" id="auth-signup-link">
+    <a class="nav-link" href="/ko/login#signup">회원가입</a>
+</li>
+<li class="nav-item" id="auth-logout-link" style="display: none;">
+    <a class="nav-link" href="#" onclick="Auth.logout(); return false;">로그아웃</a>
+</li>
+<li class="nav-item" id="auth-profile-link" style="display: none;">
+    <a class="nav-link" href="/ko/profile" style="padding-top: 0; padding-bottom: 0;">
+        <div class="d-flex align-items-center">
+            <img id="nav-avatar-img" src="" alt="Avatar" class="rounded-circle mr-2"
+                style="width: 30px; height: 30px; object-fit: cover; display: none;">
+            <i id="nav-avatar-icon" class="tf-ion-android-person" style="font-size: 24px; display: none;"></i>
+        </div>
+    </a>
+</li>
+        </ul>
+        
+        
+        <select class="lang-list" id="select-language" onchange="location = this.value;">
+          
+          
+          
+          
+          
+          
+          
+          
+          <option id="en" value="/en/blog/">English</option>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <option id="ko" value="/ko/blog/" selected>한국어
+          </option>
+          
+          
+          
+          
+        </select>
+        
+      </div>
+    </nav>
+  </div>
+</header>
+
+
+<section class="feature-list section">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center mb-5">
+                <h1>최신 포스트</h1>
+            </div>
+        </div>
+        
+    </div>
+</section>
+
+<footer>
+  <div class="container text-center">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="block">
+          <a href="/ko/" class="mb-4 d-inline-block"
+            style="width: 100px;">
+            
+            
+<div class="img-fluid">
+    
+    
+        
+        
+        <img src="/images/logo.png" alt="휴고 커머스 보일러플레이트" class="img-fluid">
+        
+    
+</div>
+
+            
+          </a>
+          <ul class="list-inline footer-menu">
+            
+            <li class="list-inline-item">
+              <a href="/ko/blog">블로그</a>
+            </li>
+            
+            <li class="list-inline-item">
+              <a href="/ko/contact">연락처</a>
+            </li>
+            
+            <li class="list-inline-item">
+              <a href="/ko/terms-conditions">이용 약관</a>
+            </li>
+            
+            <li class="list-inline-item">
+              <a href="/ko/privacy-policy">개인정보 처리방침</a>
+            </li>
+            
+          </ul>
+          <p class="copyright-text">Copyright © 2026 Your Store. Built with Hugo Commerce Boilerplate.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+
+
+
+<script src="/plugins/jquery/jquery.js"></script>
+
+<script src="/plugins/bootstrap/bootstrap.min.js"></script>
+
+<script src="/plugins/slick/slick.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+
+<script src="/js/bundle.fc3bd1d6cc6140fd558c9ac8782af66acc24920a9d7b864879dacdbc76192ac5.js?v=1773883762"></script>
+
+
+<script>
+  const loginUrl = "\/ko\/login";
+</script>
+
+
+<div id="cart-overlay" onclick="Cart.toggleDrawer()"></div>
+
+
+<div id="cart-drawer">
+  <div class="cart-header">
+    <div class="d-flex align-items-center">
+      <h3>🛒 장바구니</h3>
+      <span class="cart-count" id="cart-item-count">0</span>
+    </div>
+    <button onclick="Cart.toggleDrawer()" class="close-btn" aria-label="Close cart">
+      ×
+    </button>
+  </div>
+
+  <div id="cart-items-container">
+    <div class="cart-loading">
+      <div class="spinner"></div>
+    </div>
+  </div>
+
+  
+<script id="cart-template" type="x-tmpl-mustache">
     [[^items]]
     <div class="empty-cart">
       <div class="empty-icon">🛍️</div>
@@ -82,7 +392,34 @@
         </p>
     </div>
     [[/hasItems]]
-</script><div class=cart-footer style=display:none id=cart-footer><div class=cart-summary><div class=summary-row><span>소계</span>
-<span class=amount id=cart-subtotal>₩0</span></div><div class="summary-row total"><span>총액</span>
-<span class=amount id=cart-total>₩0</span></div></div><button onclick=Cart.checkout() class=checkout-btn id=checkout-btn>
-💳 주문하기</button></div></div><script>document.addEventListener("DOMContentLoaded",function(){window.ShopConfig&&window.Cart&&Cart.init(window.ShopConfig)})</script></body></html>
+</script>
+
+
+  <div class="cart-footer" style="display: none;" id="cart-footer">
+    <div class="cart-summary">
+      <div class="summary-row">
+        <span>소계</span>
+        <span class="amount" id="cart-subtotal">₩0</span>
+      </div>
+      <div class="summary-row total">
+        <span>총액</span>
+        <span class="amount" id="cart-total">₩0</span>
+      </div>
+    </div>
+
+    <button onclick="Cart.checkout()" class="checkout-btn" id="checkout-btn">
+      💳 주문하기
+    </button>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    if (window.ShopConfig && window.Cart) {
+      Cart.init(window.ShopConfig);
+    }
+  });
+</script>
+</body>
+
+</html>
